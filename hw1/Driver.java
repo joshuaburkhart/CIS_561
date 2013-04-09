@@ -19,6 +19,7 @@ public class Driver{
                     System.out.println(
                             Terminals.NAMES[id] + ", " +
                             id + ", " +
+                            output.value + ", " +
                             Symbol.getLine(output.getStart()) + ", " +
                             Symbol.getColumn(output.getStart())
                             );

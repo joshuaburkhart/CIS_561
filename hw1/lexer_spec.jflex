@@ -36,40 +36,53 @@ import beaver.Scanner;
         return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), value);
     }
 %}
+%state STRING
+%state COMMENT
+
+Integer = 0|[1-9][0-9]*
+Identifier = [a-z][0-9a-zA-Z_-]*
 
 %%
 
 <YYINITIAL> {
     //EOF
-    //ID
     "("                 {return new Symbol(Terminals.LPAREN);}
     "{"                 {return new Symbol(Terminals.LBRACE);}
-    "null"              {return new Symbol(Terminals.NULL);}
-    "super"             {return new Symbol(Terminals.SUPER);}
-    "new"               {return new Symbol(Terminals.NEW);}
+    null                {return new Symbol(Terminals.NULL);}
+    super               {return new Symbol(Terminals.SUPER);}
+    new                 {return new Symbol(Terminals.NEW);}
     "-"                 {return new Symbol(Terminals.MINUS);}
-    //INTEGER
+    {Integer}           {return new Symbol(Terminals.INTEGER,yytext());}
     //STRING
-    //BOOLEAN
-    "this"              {return new Symbol(Terminals.THIS);}
-    "if"                {return new Symbol(Terminals.IF);}
-    "while"             {return new Symbol(Terminals.WHILE);}
+    true|false          {return new Symbol(Terminals.BOOLEAN,yytext());}
+    this                {return new Symbol(Terminals.THIS);}
+    if                  {return new Symbol(Terminals.IF);}
+    while               {return new Symbol(Terminals.WHILE);}
     "!"                 {return new Symbol(Terminals.NOT);}
     ")"                 {return new Symbol(Terminals.RPAREN);}
     //TYPE
     ":"                 {return new Symbol(Terminals.COLON);}
-    //VAR
+    var                 {return new Symbol(Terminals.VAR);}
     "}"                 {return new Symbol(Terminals.RBRACE);}
     ";"                 {return new Symbol(Terminals.SEMI);}
     "="                 {return new Symbol(Terminals.ASSIGN);}
-    //CASE
-    //DEF
+    case                {return new Symbol(Terminals.CASE);}
+    def                 {return new Symbol(Terminals.DEF);}
     //NATIVE
     ","                 {return new Symbol(Terminals.COMMA);}
-    //ARROW
+    "<="                {return new Symbol(Terminals.ARROW);}
     "."                 {return new Symbol(Terminals.DOT);}
+    {Identifier}        {return new Symbol(Terminals.ID,yytext());}
 
 }
+
+//<STRING> {
+
+//}
+
+//<COMMENT> {
+
+//}
 
 .|\n                    {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
 
