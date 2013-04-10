@@ -1,5 +1,6 @@
 import java.io.*;
 import beaver.Symbol;
+import cool.Terminals;
 
 public class Driver{
     public static void main(String[] args){
@@ -29,6 +30,12 @@ public class Driver{
             }catch(IOException io){
                 io.printStackTrace();
             }catch(beaver.Scanner.Exception bse){
+                System.out.println("An error was detected on line " +
+                        bse.line +
+                        " at column " +
+                        bse.column +
+                        ":\n"
+                        );
                 bse.printStackTrace();
             }
         }while(!eof);

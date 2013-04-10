@@ -7,6 +7,7 @@
 
 import beaver.Symbol;
 import beaver.Scanner;
+import cool.Terminals;
 
 %%
 
@@ -25,10 +26,11 @@ import beaver.Scanner;
     private int token_line;
     private int token_column;
     private String matched_text;
+    private StringBuffer string = new StringBuffer();
     
     private Symbol newSymbol(short id)
     {
-        return new Symbol(id, yyline +1, yycolumn + 1, yylength(), yytext());
+        return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), yytext());
     }
 
     private Symbol newSymbol(short id, Object value)
@@ -37,54 +39,84 @@ import beaver.Scanner;
     }
 %}
 %state STRING
-%state COMMENT
+%state EOL_COMMENT
+%state C_STYLE_COMMENT
 
-Integer = 0|[1-9][0-9]*
-Identifier = [a-z][0-9a-zA-Z_-]*
+Integer        = 0|[1-9][0-9]*
+Identifier     = [a-z][0-9a-zA-Z_-]*
+Type           = [A-Z][0-9a-zA-Z_-]*
+Boolean        = true|false
+LineTerminator = \r|\n|\r\n
+WhiteSpace     = {LineTerminator}|[ \t\f]
 
 %%
 
 <YYINITIAL> {
     //EOF
-    "("                 {return new Symbol(Terminals.LPAREN);}
-    "{"                 {return new Symbol(Terminals.LBRACE);}
-    null                {return new Symbol(Terminals.NULL);}
-    super               {return new Symbol(Terminals.SUPER);}
-    new                 {return new Symbol(Terminals.NEW);}
-    "-"                 {return new Symbol(Terminals.MINUS);}
-    {Integer}           {return new Symbol(Terminals.INTEGER,yytext());}
-    //STRING
-    true|false          {return new Symbol(Terminals.BOOLEAN,yytext());}
-    this                {return new Symbol(Terminals.THIS);}
-    if                  {return new Symbol(Terminals.IF);}
-    while               {return new Symbol(Terminals.WHILE);}
-    "!"                 {return new Symbol(Terminals.NOT);}
-    ")"                 {return new Symbol(Terminals.RPAREN);}
-    //TYPE
-    ":"                 {return new Symbol(Terminals.COLON);}
-    var                 {return new Symbol(Terminals.VAR);}
-    "}"                 {return new Symbol(Terminals.RBRACE);}
-    ";"                 {return new Symbol(Terminals.SEMI);}
-    "="                 {return new Symbol(Terminals.ASSIGN);}
-    case                {return new Symbol(Terminals.CASE);}
-    def                 {return new Symbol(Terminals.DEF);}
-    //NATIVE
-    ","                 {return new Symbol(Terminals.COMMA);}
-    "<="                {return new Symbol(Terminals.ARROW);}
-    "."                 {return new Symbol(Terminals.DOT);}
-    {Identifier}        {return new Symbol(Terminals.ID,yytext());}
-
+    null                {return newSymbol(Terminals.NULL,yytext());}
+    super               {return newSymbol(Terminals.SUPER,yytext());}
+    new                 {return newSymbol(Terminals.NEW,yytext());}
+    this                {return newSymbol(Terminals.THIS,yytext());}
+    var                 {return newSymbol(Terminals.VAR,yytext());}
+    native              {return newSymbol(Terminals.NATIVE,yytext());}
+    not                 {return newSymbol(Terminals.NOT,yytext());}
+    case                {return newSymbol(Terminals.CASE,yytext());}
+    class               {return newSymbol(Terminals.CLASS,yytext());}
+    while               {return newSymbol(Terminals.WHILE,yytext());}
+    if                  {return newSymbol(Terminals.IF,yytext());}
+    def                 {return newSymbol(Terminals.DEF,yytext());}
+    else                {return newSymbol(Terminals.ELSE,yytext());}
+    match               {return newSymbol(Terminals.MATCH,yytext());}
+    extends             {return newSymbol(Terminals.EXTENDS,yytext());}
+    override            {return newSymbol(Terminals.OVERRIDE,yytext());}
+    "("                 {return newSymbol(Terminals.LPAREN,yytext());}
+    "{"                 {return newSymbol(Terminals.LBRACE,yytext());}
+    "-"                 {return newSymbol(Terminals.MINUS,yytext());}
+    "<"                 {return newSymbol(Terminals.LT,yytext());}
+    "<="                {return newSymbol(Terminals.LE,yytext());}
+    "=="                {return newSymbol(Terminals.EQUALS,yytext());}
+    "*"                 {return newSymbol(Terminals.TIMES,yytext());}
+    "/"                 {return newSymbol(Terminals.DIV,yytext());}
+    "+"                 {return newSymbol(Terminals.PLUS,yytext());}
+    "!"                 {return newSymbol(Terminals.NOT,yytext());}
+    ")"                 {return newSymbol(Terminals.RPAREN,yytext());}
+    ":"                 {return newSymbol(Terminals.COLON,yytext());}
+    "}"                 {return newSymbol(Terminals.RBRACE,yytext());}
+    ";"                 {return newSymbol(Terminals.SEMI,yytext());}
+    "="                 {return newSymbol(Terminals.ASSIGN,yytext());}
+    ","                 {return newSymbol(Terminals.COMMA,yytext());}
+    "=>"                {return newSymbol(Terminals.ARROW,yytext());}
+    "."                 {return newSymbol(Terminals.DOT,yytext());}
+    {Integer}           {return newSymbol(Terminals.INTEGER,yytext());}
+    {Boolean}           {return newSymbol(Terminals.BOOLEAN,yytext());}
+    {Type}              {return newSymbol(Terminals.TYPE,yytext());}
+    {Identifier}        {return newSymbol(Terminals.ID,yytext());}
+    \"                  {string.setLength(0); yybegin(STRING);}
+    \/\/                {yybegin(EOL_COMMENT);}
+    \/\*                {yybegin(C_STYLE_COMMENT);}
+    {WhiteSpace}        {/* do nothing */}
 }
 
-//<STRING> {
+<EOL_COMMENT> {
+    {LineTerminator}    {yybegin(YYINITIAL);}
+    [^\n\r]             {/* do nothing */}
+}
 
-//}
+<C_STYLE_COMMENT> {
+    \*\/               {yybegin(YYINITIAL);}
+    .                  {/* do nothing */}
+}
 
-//<COMMENT> {
+<STRING> {
+    \"                 {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
+    [^\n\r\"\\]        {string.append(yytext());}
+    \\t                {string.append('\t');}
+    \\n                {string.append('\n');}
+    \\r                {string.append('\r');}
+    \\\"               {string.append('\"');}
+    \\                 {string.append('\\');}
+}
 
-//}
-
-.|\n                    {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
-
+.|\n                   {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
 
 
