@@ -103,20 +103,20 @@ WhiteSpace     = {LineTerminator}|[ \t\f]
 }
 
 <C_STYLE_COMMENT> {
-    \*\/               {yybegin(YYINITIAL);}
-    .                  {/* do nothing */}
+    \*\/                {yybegin(YYINITIAL);}
+    .                   {/* do nothing */}
 }
 
 <STRING> {
-    \"                 {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
-    [^\n\r\"\\]        {string.append(yytext());}
-    \\t                {string.append('\t');}
-    \\n                {string.append('\n');}
-    \\r                {string.append('\r');}
-    \\\"               {string.append('\"');}
-    \\                 {string.append('\\');}
+    \"                  {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
+    [^\n\r\"\\]         {string.append(yytext());}
+    \\t                 {string.append('\t');}
+    \\n                 {string.append('\n');}
+    \\r                 {string.append('\r');}
+    \\\"                {string.append('\"');}
+    \\                  {string.append('\\');}
 }
 
-.|\n                   {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
+.|\n                    {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
 
 
