@@ -38,7 +38,8 @@ import cool.Terminals;
         return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), value);
     }
 %}
-%state STRING
+%state SIMPLE_STRING
+%state OTHER_STRING
 %state EOL_COMMENT
 %state C_STYLE_COMMENT
 
@@ -53,70 +54,82 @@ WhiteSpace     = {LineTerminator}|[ \t\f]
 
 <YYINITIAL> {
     //EOF
-    null                {return newSymbol(Terminals.NULL,yytext());}
-    super               {return newSymbol(Terminals.SUPER,yytext());}
-    new                 {return newSymbol(Terminals.NEW,yytext());}
-    this                {return newSymbol(Terminals.THIS,yytext());}
-    var                 {return newSymbol(Terminals.VAR,yytext());}
-    native              {return newSymbol(Terminals.NATIVE,yytext());}
-    not                 {return newSymbol(Terminals.NOT,yytext());}
-    case                {return newSymbol(Terminals.CASE,yytext());}
-    class               {return newSymbol(Terminals.CLASS,yytext());}
-    while               {return newSymbol(Terminals.WHILE,yytext());}
-    if                  {return newSymbol(Terminals.IF,yytext());}
-    def                 {return newSymbol(Terminals.DEF,yytext());}
-    else                {return newSymbol(Terminals.ELSE,yytext());}
-    match               {return newSymbol(Terminals.MATCH,yytext());}
-    extends             {return newSymbol(Terminals.EXTENDS,yytext());}
-    override            {return newSymbol(Terminals.OVERRIDE,yytext());}
-    "("                 {return newSymbol(Terminals.LPAREN,yytext());}
-    "{"                 {return newSymbol(Terminals.LBRACE,yytext());}
-    "-"                 {return newSymbol(Terminals.MINUS,yytext());}
-    "<"                 {return newSymbol(Terminals.LT,yytext());}
-    "<="                {return newSymbol(Terminals.LE,yytext());}
-    "=="                {return newSymbol(Terminals.EQUALS,yytext());}
-    "*"                 {return newSymbol(Terminals.TIMES,yytext());}
-    "/"                 {return newSymbol(Terminals.DIV,yytext());}
-    "+"                 {return newSymbol(Terminals.PLUS,yytext());}
-    "!"                 {return newSymbol(Terminals.NOT,yytext());}
-    ")"                 {return newSymbol(Terminals.RPAREN,yytext());}
-    ":"                 {return newSymbol(Terminals.COLON,yytext());}
-    "}"                 {return newSymbol(Terminals.RBRACE,yytext());}
-    ";"                 {return newSymbol(Terminals.SEMI,yytext());}
-    "="                 {return newSymbol(Terminals.ASSIGN,yytext());}
-    ","                 {return newSymbol(Terminals.COMMA,yytext());}
-    "=>"                {return newSymbol(Terminals.ARROW,yytext());}
-    "."                 {return newSymbol(Terminals.DOT,yytext());}
-    {Integer}           {return newSymbol(Terminals.INTEGER,yytext());}
-    {Boolean}           {return newSymbol(Terminals.BOOLEAN,yytext());}
-    {Type}              {return newSymbol(Terminals.TYPE,yytext());}
-    {Identifier}        {return newSymbol(Terminals.ID,yytext());}
-    \"                  {string.setLength(0); yybegin(STRING);}
-    \/\/                {yybegin(EOL_COMMENT);}
-    \/\*                {yybegin(C_STYLE_COMMENT);}
-    {WhiteSpace}        {/* do nothing */}
+    null                 {return newSymbol(Terminals.NULL,yytext());}
+    super                {return newSymbol(Terminals.SUPER,yytext());}
+    new                  {return newSymbol(Terminals.NEW,yytext());}
+    this                 {return newSymbol(Terminals.THIS,yytext());}
+    var                  {return newSymbol(Terminals.VAR,yytext());}
+    native               {return newSymbol(Terminals.NATIVE,yytext());}
+    not                  {return newSymbol(Terminals.NOT,yytext());}
+    case                 {return newSymbol(Terminals.CASE,yytext());}
+    class                {return newSymbol(Terminals.CLASS,yytext());}
+    while                {return newSymbol(Terminals.WHILE,yytext());}
+    if                   {return newSymbol(Terminals.IF,yytext());}
+    def                  {return newSymbol(Terminals.DEF,yytext());}
+    else                 {return newSymbol(Terminals.ELSE,yytext());}
+    match                {return newSymbol(Terminals.MATCH,yytext());}
+    extends              {return newSymbol(Terminals.EXTENDS,yytext());}
+    override             {return newSymbol(Terminals.OVERRIDE,yytext());}
+    "("                  {return newSymbol(Terminals.LPAREN,yytext());}
+    "{"                  {return newSymbol(Terminals.LBRACE,yytext());}
+    "-"                  {return newSymbol(Terminals.MINUS,yytext());}
+    "<"                  {return newSymbol(Terminals.LT,yytext());}
+    "<="                 {return newSymbol(Terminals.LE,yytext());}
+    "=="                 {return newSymbol(Terminals.EQUALS,yytext());}
+    "*"                  {return newSymbol(Terminals.TIMES,yytext());}
+    "/"                  {return newSymbol(Terminals.DIV,yytext());}
+    "+"                  {return newSymbol(Terminals.PLUS,yytext());}
+    "!"                  {return newSymbol(Terminals.NOT,yytext());}
+    ")"                  {return newSymbol(Terminals.RPAREN,yytext());}
+    ":"                  {return newSymbol(Terminals.COLON,yytext());}
+    "}"                  {return newSymbol(Terminals.RBRACE,yytext());}
+    ";"                  {return newSymbol(Terminals.SEMI,yytext());}
+    "="                  {return newSymbol(Terminals.ASSIGN,yytext());}
+    ","                  {return newSymbol(Terminals.COMMA,yytext());}
+    "=>"                 {return newSymbol(Terminals.ARROW,yytext());}
+    "."                  {return newSymbol(Terminals.DOT,yytext());}
+    {Integer}            {return newSymbol(Terminals.INTEGER,yytext());}
+    {Boolean}            {return newSymbol(Terminals.BOOLEAN,yytext());}
+    {Type}               {return newSymbol(Terminals.TYPE,yytext());}
+    {Identifier}         {return newSymbol(Terminals.ID,yytext());}
+    \"                   {string.setLength(0); yybegin(SIMPLE_STRING);}
+    \"\"\"               {string.setLength(0); yybegin(OTHER_STRING);}
+    \/\/                 {yybegin(EOL_COMMENT);}
+    \/\*                 {yybegin(C_STYLE_COMMENT);}
+    {WhiteSpace}         {/* do nothing */}
 }
 
 <EOL_COMMENT> {
-    {LineTerminator}    {yybegin(YYINITIAL);}
-    [^\n\r]             {/* do nothing */}
+    {LineTerminator}     {yybegin(YYINITIAL);}
+    [^\n\r]              {/* do nothing */}
 }
 
 <C_STYLE_COMMENT> {
-    \*\/                {yybegin(YYINITIAL);}
-    .                   {/* do nothing */}
+    \*\/                 {yybegin(YYINITIAL);}
+    .|\n                    {/* do nothing */}
 }
 
-<STRING> {
-    \"                  {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
-    [^\n\r\"\\]         {string.append(yytext());}
-    \\t                 {string.append('\t');}
-    \\n                 {string.append('\n');}
-    \\r                 {string.append('\r');}
-    \\\"                {string.append('\"');}
-    \\                  {string.append('\\');}
+<SIMPLE_STRING> {
+    \"                   {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
+    [^\0\b\t\n\r\f\"\\]+ {string.append(yytext());}
+    \\n                  {string.append('\n');}
+    \\t                  {string.append('\t');}
+    \\n                  {string.append('\n');}
+    \\r                  {string.append('\r');}
+    \\\"                 {string.append('\"');}
+    \\                   {string.append('\\');} 
 }
 
-.|\n                    {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
+<OTHER_STRING> {
+    \"\"\"               {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
+    [^\t\n\r\"\\]+       {string.append(yytext());}
+    \\t                  {string.append('\t');}
+    \\n                  {string.append('\n');}
+    \\r                  {string.append('\r');}
+    \\\"                 {string.append('\"');}
+    \\                   {string.append('\\');} 
+}
+
+.|\n                     {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
 
 
