@@ -111,23 +111,28 @@ WhiteSpace     = {LineTerminator}|[ \t\f]
 
 <SIMPLE_STRING> {
     \"                   {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
-    [^\0\b\t\n\r\f\"\\]+ {string.append(yytext());}
-    \\n                  {string.append('\n');}
+    \\0                  {string.append('\0');}
+    \\b                  {string.append('\b');}
     \\t                  {string.append('\t');}
     \\n                  {string.append('\n');}
     \\r                  {string.append('\r');}
+    \\f                  {string.append('\f');}
     \\\"                 {string.append('\"');}
     \\                   {string.append('\\');} 
+    [^\0\b\t\n\r\f\"\\]+ {string.append(yytext());}
 }
 
 <OTHER_STRING> {
     \"\"\"               {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
-    [^\t\n\r\"\\]+       {string.append(yytext());}
+    \\0                  {string.append('\0');}
+    \\b                  {string.append('\b');}
     \\t                  {string.append('\t');}
     \\n                  {string.append('\n');}
     \\r                  {string.append('\r');}
+    \\f                  {string.append('\f');}
     \\\"                 {string.append('\"');}
     \\                   {string.append('\\');} 
+    .|\n                 {string.append(yytext());}
 }
 
 .|\n                     {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
