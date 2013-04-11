@@ -8,6 +8,8 @@
 import beaver.Symbol;
 import beaver.Scanner;
 import cool.Terminals;
+import cool.ErrorReport;
+import java.util.ArrayList;
 
 %%
 
@@ -23,10 +25,8 @@ import cool.Terminals;
 %line
 %column
 %{
-    private int token_line;
-    private int token_column;
-    private String matched_text;
     private StringBuffer string = new StringBuffer();
+    private ArrayList<ErrorReport> errors = new ArrayList<ErrorReport>();
     
     private Symbol newSymbol(short id)
     {
@@ -49,11 +49,11 @@ Type           = [A-Z][0-9a-zA-Z_-]*
 Boolean        = true|false
 LineTerminator = \r|\n|\r\n
 WhiteSpace     = {LineTerminator}|[ \t\f]
+Illegal        = abstract|catch|do|final|finally|for|forSome|implicit|import|lazy|object|package|private|protected|requires|return|sealed|throw|trait|try|type|val|with|yield
 
 %%
 
 <YYINITIAL> {
-    //EOF
     null                 {return newSymbol(Terminals.NULL,yytext());}
     super                {return newSymbol(Terminals.SUPER,yytext());}
     new                  {return newSymbol(Terminals.NEW,yytext());}
@@ -88,6 +88,7 @@ WhiteSpace     = {LineTerminator}|[ \t\f]
     ","                  {return newSymbol(Terminals.COMMA,yytext());}
     "=>"                 {return newSymbol(Terminals.ARROW,yytext());}
     "."                  {return newSymbol(Terminals.DOT,yytext());}
+    {Illegal}            {errors.add(new ErrorReport("Reserved Word '"+yytext()+"'",yyline + 1,yycolumn + 1)); return newSymbol(Terminals.ID,yytext());}
     {Integer}            {return newSymbol(Terminals.INTEGER,yytext());}
     {Boolean}            {return newSymbol(Terminals.BOOLEAN,yytext());}
     {Type}               {return newSymbol(Terminals.TYPE,yytext());}
@@ -135,6 +136,6 @@ WhiteSpace     = {LineTerminator}|[ \t\f]
     .|\n                 {string.append(yytext());}
 }
 
-.|\n                     {throw new Scanner.Exception(yyline + 1, yycolumn + 1, "ERROR ON: '" + yytext() + "'");}
+.|\n                     {errors.add(new ErrorReport("Unkown Symbol '"+yytext()+"'",yyline + 1, yycolumn + 1));}
 
 
