@@ -1,0 +1,156 @@
+
+%terminals EOF, ID, LPAREN, LBRACE, NULL, SUPER, NEW, MINUS, INTEGER, STRING, BOOLEAN, THIS, IF, WHILE, NOT, RPAREN, TYPE, COLON, VAR, RBRACE, SEMI, ASSIGN, CASE, DEF, NATIVE, COMMA, ARROW, DOT, CLASS, ELSE, EXTENDS, OVERRIDE, LE, LT, EQUALS, TIMES, DIV, PLUS, MATCH;
+
+%goal program;
+
+program
+    = classdecl EOF
+    ;
+
+classdecl
+    = CLASS TYPE varformals classbody
+    | CLASS TYPE varformals EXTENDS TYPE actuals classbody
+    | CLASS TYPE varformals EXTENDS NATIVE classbody
+    ;
+
+varformals
+    = LPAREN RPAREN
+    | LPAREN VAR ID COLON TYPE RPAREN
+    | LPAREN varformals_sub1 VAR ID COLON TYPE RPAREN
+    ;
+
+varformals_sub1
+    = VAR ID COLON TYPE COMMA
+    | varformals_sub1 VAR ID COLON TYPE COMMA
+    ;
+
+classbody
+    = LBRACE RBRACE
+    | LBRACE feature RBRACE
+    | LBRACE classbody_sub1 feature RBRACE
+    ;
+
+classbody_sub1
+    = feature
+    | classbody_sub1 feature
+    ;
+
+feature
+    = feature_sub1 NATIVE SEMI
+    | feature_sub1 expr SEMI
+    | OVERRIDE feature_sub1 NATIVE SEMI
+    | OVERRIDE feature_sub1 expr SEMI
+    | feature_sub2 ASSIGN NATIVE SEMI
+    | feature_sub2 COLON TYPE ASSIGN expr SEMI
+    | LBRACE block RBRACE SEMI
+    ;  
+
+feature_sub1
+    = DEF ID formals COLON TYPE ASSIGN
+    ;
+
+feature_sub2
+    = VAR ID
+    ;
+
+formals
+    = LPAREN RPAREN
+    | LPAREN ID COLON TYPE RPAREN
+    | LPAREN formals_sub1 ID COLON TYPE RPAREN
+    ;
+
+formals_sub1
+    = ID COLON TYPE COMMA
+    | formals_sub1 ID COLON TYPE COMMA
+    ;
+
+actuals
+    = LPAREN RPAREN
+    | LPAREN expr RPAREN
+    | LPAREN actuals_sub1 expr RPAREN
+    ;
+
+actuals_sub1
+    = expr COMMA
+    | actuals_sub1 expr COMMA
+    ;
+
+block
+    = 
+    | expr
+    | block_sub1 expr
+    ;
+
+
+block_sub1
+    = expr SEMI
+    | block_sub1 expr SEMI
+    | VAR ID COLON TYPE ASSIGN expr SEMI
+    | block_sub1 VAR ID COLON TYPE ASSIGN expr SEMI
+    ;
+
+expr
+    = primary
+    | primary expr_sub1
+    | expr_sub2 primary
+    | expr_sub2 primary expr_sub1
+    ;
+
+expr_sub1
+    = expr_sub1_1 expr
+    | expr_sub1 expr_sub1_1 expr
+    | MATCH cases
+    | expr_sub1 MATCH cases
+    | DOT ID actuals
+    | expr_sub1 DOT ID actuals
+    ;
+
+expr_sub1_1
+    = LE
+    | LT
+    | EQUALS
+    | TIMES
+    | DIV
+    | PLUS
+    | MINUS
+    ;
+
+expr_sub2
+    = ID ASSIGN
+    | expr_sub2 ID ASSIGN
+    | NOT
+    | expr_sub2 NOT
+    | MINUS
+    | expr_sub2 MINUS
+    | IF LPAREN expr RPAREN expr ELSE
+    | expr_sub2 IF LPAREN expr RPAREN expr ELSE
+    | WHILE LPAREN expr RPAREN
+    | expr_sub2 WHILE LPAREN expr RPAREN
+    ;
+
+primary
+    = ID actuals
+    | SUPER DOT ID actuals
+    | NEW TYPE actuals
+    | LBRACE block RBRACE
+    | LPAREN expr RPAREN
+    | NULL
+    | LPAREN RPAREN
+    | ID
+    | INTEGER
+    | STRING
+    | BOOLEAN
+    | THIS
+    ;
+
+cases
+    = LBRACE cases_sub1 RBRACE
+    ;
+
+cases_sub1
+    = CASE ID COLON TYPE ARROW block
+    | cases_sub1 CASE ID COLON TYPE ARROW block
+    | CASE NULL ARROW block
+    | cases_sub1 CASE NULL ARROW block
+    ;
+
