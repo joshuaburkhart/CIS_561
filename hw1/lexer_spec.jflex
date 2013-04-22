@@ -111,12 +111,10 @@ Illegal        = abstract|catch|do|final|finally|for|forSome|implicit|import|laz
 }
 
 <SIMPLE_STRING> {
-    \"                   {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
+    \"|{LineTerminator}  {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
     \\0                  {string.append('\0');}
     \\b                  {string.append('\b');}
     \\t                  {string.append('\t');}
-    \\n                  {string.append('\n');}
-    \\r                  {string.append('\r');}
     \\f                  {string.append('\f');}
     \\\"                 {string.append('\"');}
     \\                   {string.append('\\');} 

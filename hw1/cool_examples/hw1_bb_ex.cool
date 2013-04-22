@@ -1,0 +1,14 @@
+/*  This comment is 
+    perfectly legit
+ */
+"This string is not terminated
+class Pair(var v1 : Any, var v2 : Any) {
+    def first() : Any = v1;   // I can write anything here
+    def second() : Any = v2;
+    """ This string 
+        really serves no purpose here
+        but it contains " and ' and /* \n and stuff 
+        """
+} """ This string
+bogus bogus bogus
+is not terminated
