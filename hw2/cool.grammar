@@ -1,6 +1,9 @@
-//Usage: java -jar beaver-cc.jar cool.grammar
+
+%header {: import beaver.Parser; :};
 
 %terminals EOF, ID, LPAREN, LBRACE, NULL, SUPER, NEW, MINUS, INTEGER, STRING, BOOLEAN, THIS, IF, WHILE, NOT, RPAREN, TYPE, COLON, VAR, RBRACE, SEMI, ASSIGN, CASE, DEF, NATIVE, COMMA, ARROW, DOT, CLASS, ELSE, EXTENDS, OVERRIDE, LE, LT, EQUALS, TIMES, DIV, PLUS, MATCH;
+
+%class "Parser4Cool";
 
 %goal program;
 

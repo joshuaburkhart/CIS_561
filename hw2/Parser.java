@@ -10,8 +10,8 @@ class Printer
 {
     static public void main(String[] args) throws IOException, Parser.Exception
     {   
-        Parser parser = new Parser();
-        Scanner input = new Scanner(new StringReader(args[0]));
+        Parser4Cool parser = new Parser4Cool();
+        Lexer4Cool input = new Lexer4Cool(new StringReader(args[0]));
         parser.parse(input);
         System.out.println("Everything seems to work out.");
     }
