@@ -2,6 +2,7 @@
 *.swp
 *~
 *.zip
+.DS_Store
 
 # Package Files #
 *.jar
