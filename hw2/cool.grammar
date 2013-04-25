@@ -101,8 +101,8 @@ expr
     ;
 
 expr_sub1
-    = expr_sub1_1 expr
-    | expr_sub1 expr_sub1_1 expr
+    = expr_sub1_1 LPAREN expr RPAREN
+    | expr_sub1 expr_sub1_1 LPAREN expr RPAREN
     | MATCH cases
     | expr_sub1 MATCH cases
     | DOT ID actuals
