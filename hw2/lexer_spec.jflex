@@ -7,7 +7,6 @@
 
 import beaver.Symbol;
 import beaver.Scanner;
-import cool.Terminals;
 import cool.ErrorReport;
 import java.util.ArrayList;
 
