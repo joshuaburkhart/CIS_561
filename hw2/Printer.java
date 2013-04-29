@@ -20,7 +20,7 @@ class Printer
         Lexer4Cool input = new Lexer4Cool(fr);
         Parser4Cool parser = new Parser4Cool();
         try{
-        parser.parse(input);
+        Symbol sym = (Symbol) parser.parse(input);
         }catch(Parser.Exception pe){
             if(pe.getMessage().matches(EOF_MESSAGE)){
                 //probably just EOF reached... ignore

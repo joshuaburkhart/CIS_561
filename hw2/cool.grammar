@@ -8,90 +8,90 @@
 %goal program;
 
 program
-    = classdecl
-    | classdecl program
+    = classdecl.c                                                {: return new Program(c);   :}
+    | classdecl.c program.p                                      {: return new Program(c,p); :}
     ;
 
 classdecl
-    = CLASS TYPE varformals classbody
-    | CLASS TYPE varformals EXTENDS TYPE actuals classbody
-    | CLASS TYPE varformals EXTENDS NATIVE classbody
+    = CLASS TYPE varformals.v classbody.c                        {: return new ClassDecl(v,c); :}
+    | CLASS TYPE varformals.v EXTENDS TYPE actuals.a classbody.c {: return new ClassDecl(v,a,c); :}
+    | CLASS TYPE varformals.v EXTENDS NATIVE classbody.c         {: return new ClassDecl(c,v); :}
     ;
 
 varformals
-    = LPAREN RPAREN
-    | LPAREN VAR ID COLON TYPE RPAREN
-    | LPAREN varformals_sub1 VAR ID COLON TYPE RPAREN
+    = LPAREN RPAREN                                              {: return new EmptyVarFormals(); :}
+    | LPAREN VAR ID COLON TYPE RPAREN                            {: return new VarFormals(); :}
+    | LPAREN varformals_sub1.v VAR ID COLON TYPE RPAREN          {: return new VarFormals(v); :}
     ;
 
 varformals_sub1
-    = VAR ID COLON TYPE COMMA
-    | varformals_sub1 VAR ID COLON TYPE COMMA
+    = VAR ID COLON TYPE COMMA                                    {: return new VarFormalsSub1(); :}
+    | varformals_sub1.v VAR ID COLON TYPE COMMA                  {: return new VarFormalsSub1(v); :}
     ;
 
 classbody
-    = LBRACE RBRACE
-    | LBRACE feature RBRACE
-    | LBRACE classbody_sub1 feature RBRACE
+    = LBRACE RBRACE                                              {: return new ClassBody(); :}
+    | LBRACE feature.f RBRACE                                    {: return new ClassBody(f); :}
+    | LBRACE classbody_sub1.c feature.f RBRACE                   {: return new ClassBody(c,f); :}   
     ;
 
 classbody_sub1
-    = feature
-    | classbody_sub1 feature
+    = feature.f                                                  {: return new ClassBodySub1(f); :}
+    | classbody_sub1.c feature.f                                 {: return new ClassBodySub1(c,f); :}
     ;
 
 feature
-    = feature_sub1 NATIVE SEMI
-    | feature_sub1 expr SEMI
-    | OVERRIDE feature_sub1 NATIVE SEMI
-    | OVERRIDE feature_sub1 expr SEMI
-    | feature_sub2 ASSIGN NATIVE SEMI
-    | feature_sub2 COLON TYPE ASSIGN expr SEMI
-    | LBRACE block RBRACE SEMI
+    = feature_sub1.f NATIVE SEMI                                 {: return new NativeFeature(f); :}
+    | feature_sub1.f expr.e SEMI                                 {: return new NativeFeature(f,e); :}
+    | OVERRIDE feature_sub1.f NATIVE SEMI                        {: return new OverrideFeature(f); :}
+    | OVERRIDE feature_sub1.f expr.e SEMI                        {: return new OverrideFeature(f,e); :}
+    | feature_sub2.f ASSIGN NATIVE SEMI                          {: return new Feature(f); :}
+    | feature_sub2.f COLON TYPE ASSIGN expr.e SEMI               {: return new Feature(f,e); :}
+    | LBRACE block.b RBRACE SEMI                                 {: return new Feature(b); :}
     ;  
 
 feature_sub1
-    = DEF ID formals COLON TYPE ASSIGN
+    = DEF ID formals.f COLON TYPE ASSIGN                         {: return new FeatureSub1(f); :}
     ;
 
 feature_sub2
-    = VAR ID
+    = VAR ID                                                     {: return new FeatureSub2(); :}
     ;
 
 formals
-    = LPAREN RPAREN
-    | LPAREN ID COLON TYPE RPAREN
-    | LPAREN formals_sub1 ID COLON TYPE RPAREN
+    = LPAREN RPAREN                                              {: return new EmptyFormals(); :}
+    | LPAREN ID COLON TYPE RPAREN                                {: return new Formals(); :}
+    | LPAREN formals_sub1.f ID COLON TYPE RPAREN                 {: return new Formals(f); :}
     ;
 
 formals_sub1
-    = ID COLON TYPE COMMA
-    | formals_sub1 ID COLON TYPE COMMA
+    = ID COLON TYPE COMMA                                        {: return new FormalsSub1(); :}
+    | formals_sub1.f ID COLON TYPE COMMA                         {: return new FormalsSub1(f); :}
     ;
 
 actuals
-    = LPAREN RPAREN
-    | LPAREN expr RPAREN
-    | LPAREN actuals_sub1 expr RPAREN
+    = LPAREN RPAREN                                              {: return new Actuals(); :}
+    | LPAREN expr.e RPAREN                                       {: return new Actuals(e); :}
+    | LPAREN actuals_sub1.a expr.e RPAREN                        {: return new Actuals(a,e); :} 
     ;
 
 actuals_sub1
-    = expr COMMA
-    | actuals_sub1 expr COMMA
+    = expr.e COMMA                                               {: return new ActualsSub1(e); :}
+    | actuals_sub1.a expr COMMA                                  {: return new ActualsSub1(a); :}
     ;
 
 block
-    = 
-    | expr
-    | block_sub1 expr
+    =                                                            {: return new Block(); :}
+    | expr.e                                                     {: return new Block(e); :}
+    | block_sub1.b expr.e                                        {: return new Block(b,e); :}
     ;
 
 
 block_sub1
-    = expr SEMI
-    | block_sub1 expr SEMI
-    | VAR ID COLON TYPE ASSIGN expr SEMI
-    | block_sub1 VAR ID COLON TYPE ASSIGN expr SEMI
+    = expr.e SEMI                                                {: return new SimpleBlockSub1(e); :}
+    | block_sub1.b expr.e SEMI                                   {: return new SimpleBlockSub1(b,e); :}
+    | VAR ID COLON TYPE ASSIGN expr.e SEMI                       {: return new BlockSub1(e); :}
+    | block_sub1.b VAR ID COLON TYPE ASSIGN expr.e SEMI          {: return new BlockSub1(e,b); :}
     ;
 
 expr
