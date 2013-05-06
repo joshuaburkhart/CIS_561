@@ -19,8 +19,8 @@ classdecl
     ;
 
 varformals
-    = LPAREN RPAREN                                              {: return new EmptyVarFormals(); :}
-    | LPAREN VAR ID COLON TYPE RPAREN                            {: return new VarFormals(); :}
+    = LPAREN RPAREN                                              {: return new VarFormals(0); :}
+    | LPAREN VAR ID COLON TYPE RPAREN                            {: return new VarFormals(1); :}
     | LPAREN varformals_sub1.v VAR ID COLON TYPE RPAREN          {: return new VarFormals(v); :}
     ;
 
@@ -41,12 +41,12 @@ classbody_sub1
     ;
 
 feature
-    = feature_sub1.f NATIVE SEMI                                 {: return new NativeFeature(f); :}
-    | feature_sub1.f expr.e SEMI                                 {: return new NativeFeature(f,e); :}
-    | OVERRIDE feature_sub1.f NATIVE SEMI                        {: return new OverrideFeature(f); :}
-    | OVERRIDE feature_sub1.f expr.e SEMI                        {: return new OverrideFeature(f,e); :}
-    | feature_sub2.f ASSIGN NATIVE SEMI                          {: return new Feature(f); :}
-    | feature_sub2.f COLON TYPE ASSIGN expr.e SEMI               {: return new Feature(f,e); :}
+    = feature_sub1.f NATIVE SEMI                                 {: return new Feature(f,0); :}
+    | feature_sub1.f expr.e SEMI                                 {: return new Feature(f,e,0); :}
+    | OVERRIDE feature_sub1.f NATIVE SEMI                        {: return new Feature(f,1); :}
+    | OVERRIDE feature_sub1.f expr.e SEMI                        {: return new Feature(f,e,1); :}
+    | feature_sub2.f ASSIGN NATIVE SEMI                          {: return new Feature(f,2); :}
+    | feature_sub2.f COLON TYPE ASSIGN expr.e SEMI               {: return new Feature(f,e,2); :}
     | LBRACE block.b RBRACE SEMI                                 {: return new Feature(b); :}
     ;  
 
@@ -59,8 +59,8 @@ feature_sub2
     ;
 
 formals
-    = LPAREN RPAREN                                              {: return new EmptyFormals(); :}
-    | LPAREN ID COLON TYPE RPAREN                                {: return new Formals(); :}
+    = LPAREN RPAREN                                              {: return new Formals(0); :}
+    | LPAREN ID COLON TYPE RPAREN                                {: return new Formals(1); :}
     | LPAREN formals_sub1.f ID COLON TYPE RPAREN                 {: return new Formals(f); :}
     ;
 
@@ -77,7 +77,7 @@ actuals
 
 actuals_sub1
     = expr.e COMMA                                               {: return new ActualsSub1(e); :}
-    | actuals_sub1.a expr COMMA                                  {: return new ActualsSub1(a); :}
+    | actuals_sub1.a expr.e COMMA                                {: return new ActualsSub1(a,e); :}
     ;
 
 block
@@ -88,17 +88,17 @@ block
 
 
 block_sub1
-    = expr.e SEMI                                                {: return new SimpleBlockSub1(e); :}
-    | block_sub1.b expr.e SEMI                                   {: return new SimpleBlockSub1(b,e); :}
-    | VAR ID COLON TYPE ASSIGN expr.e SEMI                       {: return new BlockSub1(e); :}
-    | block_sub1.b VAR ID COLON TYPE ASSIGN expr.e SEMI          {: return new BlockSub1(e,b); :}
+    = expr.e SEMI                                                {: return new BlockSub1(e,0); :}
+    | block_sub1.b expr.e SEMI                                   {: return new BlockSub1(e,b,0); :}
+    | VAR ID COLON TYPE ASSIGN expr.e SEMI                       {: return new BlockSub1(e,1); :}
+    | block_sub1.b VAR ID COLON TYPE ASSIGN expr.e SEMI          {: return new BlockSub1(e,b,1); :}
     ;
 
 expr
-    = primary.p                                                  {: return new Primary(p); :}
-    | primary.p expr_sub1.e                                      {: return new Primary(p,e); :}
-    | expr_sub2.e primary.p                                      {: return new Primary(e,p); :}
-    | expr_sub2.e2 primary.p expr_sub1.e1                        {: return new Primary(e2,p,e1); :}
+    = primary.p                                                  {: return new Expr(p); :}
+    | primary.p expr_sub1.e                                      {: return new Expr(p,e); :}
+    | expr_sub2.e primary.p                                      {: return new Expr(e,p); :}
+    | expr_sub2.e2 primary.p expr_sub1.e1                        {: return new Expr(e2,p,e1); :}
     ;
 
 expr_sub1
