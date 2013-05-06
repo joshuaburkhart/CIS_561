@@ -17,7 +17,7 @@ program
 classdecl
     = CLASS TYPE varformals.v classbody.c                        {: return new ClassDecl(2,v,c); :}
     | CLASS TYPE varformals.v EXTENDS TYPE actuals.a classbody.c {: return new ClassDecl(3,v,a,c); :}
-    | CLASS TYPE varformals.v EXTENDS NATIVE classbody.c         {: return new ClassDecl(4,c,v); :}
+    | CLASS TYPE varformals.v EXTENDS NATIVE classbody.c         {: return new ClassDecl(4,v,c); :}
     ;
 
 varformals
@@ -47,8 +47,8 @@ feature
     | feature_sub1.f expr.e SEMI                                 {: return new Feature(16,f,e); :}
     | OVERRIDE feature_sub1.f NATIVE SEMI                        {: return new Feature(17,f); :}
     | OVERRIDE feature_sub1.f expr.e SEMI                        {: return new Feature(18,f,e); :}
-    | feature_sub2.f ASSIGN NATIVE SEMI                          {: return new Feature(19,f); :}
-    | feature_sub2.f COLON TYPE ASSIGN expr.e SEMI               {: return new Feature(20,f,e); :}
+    | feature_sub2.f ASSIGN NATIVE SEMI                          {: return new Feature(19,f2); :}
+    | feature_sub2.f COLON TYPE ASSIGN expr.e SEMI               {: return new Feature(20,f2,e); :}
     | LBRACE block.b RBRACE SEMI                                 {: return new Feature(21,b); :}
     ;  
 
@@ -79,7 +79,7 @@ actuals
 
 actuals_sub1
     = expr.e COMMA                                               {: return new ActualsSub1(32,e); :}
-    | actuals_sub1.a expr COMMA                                  {: return new ActualsSub1(33,a); :}
+    | actuals_sub1.a expr.e COMMA                                {: return new ActualsSub1(33,a,e); :}
     ;
 
 block
@@ -98,8 +98,8 @@ block_sub1
 
 expr
     = primary.p                                                  {: return new Expr(41,p); :}
-    | primary.p expr_sub1.e                                      {: return new Expr(42,p,e); :}
-    | expr_sub2.e primary.p                                      {: return new Expr(43,e,p); :}
+    | primary.p expr_sub1.e1                                     {: return new Expr(42,p,e1); :}
+    | expr_sub2.e2 primary.p                                     {: return new Expr(43,e2,p); :}
     | expr_sub2.e2 primary.p expr_sub1.e1                        {: return new Expr(44,e2,p,e1); :}
     ;
 
