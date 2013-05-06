@@ -1,8 +1,12 @@
 public class FeatureSub2 extends Node
 {
-    protected FeatureSub2()
+
+    public final Id i;
+
+    protected FeatureSub2(int id, Id i)
     {
         super();
+        this.PRODUCTION_ID = id;
+        this.i = i;
     }
-
 }

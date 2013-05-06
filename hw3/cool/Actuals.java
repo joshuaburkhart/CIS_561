@@ -3,20 +3,23 @@ public class Actuals extends Node
     public final Expr e;
     public final ActualsSub1 a;
 
-    protected Actuals()
+    protected Actuals(int id)
     {
         super();
+        this.PRODUCTION_ID = id;
     }
 
-    protected Actuals(Expr e)
+    protected Actuals(int id, Expr e)
     {
         super();
+        this.PRODUCTION_ID = id;
         this.e = e;
     }
 
-    protected Actuals(ActualsSub1 a, Expr e)
+    protected Actuals(int id, ActualsSub1 a, Expr e)
     {
         super();
+        this.PRODUCTION_ID = id;
         this.a = a;
         this.e = e;
     }
