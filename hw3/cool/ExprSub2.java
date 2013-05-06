@@ -10,20 +10,29 @@ public class ExprSub2 extends Node
         super();
         this.PRODUCTION_ID = id;
         this.i = i;
+        this.e = null;
+        this.ee = null;
+        this.e2 = null;
     }
 
     protected ExprSub2(int id, ExprSub2 e2, Id i)
     {
         super();
         this.PRODUCTION_ID = id;
-        this.e2 = e2
+        this.e2 = e2;
         this.i = i;
+        this.e = null;
+        this.ee = null;
     }
 
     protected ExprSub2(int id)
     {
         super();
         this.PRODUCTION_ID = id;
+        this.e2 = null;
+        this.i = null;
+        this.e = null;
+        this.ee = null;
     }
 
     protected ExprSub2(int id, ExprSub2 e2)
@@ -31,6 +40,9 @@ public class ExprSub2 extends Node
         super();
         this.PRODUCTION_ID = id;
         this.e2 = e2;
+        this.i = null;
+        this.e = null;
+        this.ee = null;
     }
     
 
@@ -40,6 +52,8 @@ public class ExprSub2 extends Node
         this.PRODUCTION_ID = id;
         this.e = e;
         this.ee = ee;
+        this.e2 = null;
+        this.i = null;
     }
 
     protected ExprSub2(int id, ExprSub2 e2, Expr e, Expr ee)
@@ -49,6 +63,7 @@ public class ExprSub2 extends Node
         this.e2 = e2;
         this.e = e;
         this.ee = ee;
+        this.i = null;
     }
 
     protected ExprSub2(int id, Expr e)
@@ -56,6 +71,9 @@ public class ExprSub2 extends Node
         super();
         this.PRODUCTION_ID = id;
         this.e = e;
+        this.e2 = null;
+        this.ee = null;
+        this.i = null;
     }
 
     protected ExprSub2(int id, ExprSub2 e2, Expr e)
@@ -64,5 +82,7 @@ public class ExprSub2 extends Node
         this.PRODUCTION_ID = id;
         this.e2 = e2;
         this.e = e;
+        this.ee = null;
+        this.i = null;
     }
 }

@@ -7,6 +7,8 @@ public class ClassBody extends Node
     {
         super();
         this.PRODUCTION_ID = id;
+        this.f = null;
+        this.c = null;
     }
 
     protected ClassBody(int id, Feature f)
@@ -14,6 +16,7 @@ public class ClassBody extends Node
         super();
         this.PRODUCTION_ID = id;
         this.f = f;
+        this.c = null;
     }
 
     protected ClassBody(int id, ClassBodySub1 c, Feature f)

@@ -8,7 +8,9 @@ public class Expr extends Node
     {
         super();
         this.PRODUCTION_ID = id;
-        this.p = p
+        this.p = p;
+        this.e1 = null;
+        this.e2 = null;
     }
 
     protected Expr(int id, Primary p, ExprSub1 e1)
@@ -17,6 +19,7 @@ public class Expr extends Node
         this.PRODUCTION_ID = id;
         this.p = p;
         this.e1 = e1;
+        this.e2 = null;
     }
 
     protected Expr(int id, ExprSub2 e2, Primary p)
@@ -25,6 +28,7 @@ public class Expr extends Node
         this.PRODUCTION_ID = id;
         this.e2 = e2;
         this.p = p;
+        this.e1 = null;
     }
 
     protected Expr(int id, ExprSub2 e2, Primary p, ExprSub1 e1)

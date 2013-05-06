@@ -8,6 +8,7 @@ public class FormalsSub1 extends Node
         super();
         this.PRODUCTION_ID = id;
         this.i = i;
+        this.f = null;
     }
 
     protected FormalsSub1(int id, FormalsSub1 f, Id i)

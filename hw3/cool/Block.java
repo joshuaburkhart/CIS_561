@@ -7,6 +7,8 @@ public class Block extends Node
     {
         super();
         this.PRODUCTION_ID = id;
+        this.e = null;
+        this.b = null;
     }
 
     protected Block(int id, Expr e)
@@ -14,6 +16,7 @@ public class Block extends Node
         super();
         this.PRODUCTION_ID = id;
         this.e = e;
+        this.b = null;
     }
 
     protected Block(int id, BlockSub1 b, Expr e)

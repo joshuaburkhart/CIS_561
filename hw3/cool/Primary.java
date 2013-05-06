@@ -11,6 +11,8 @@ public class Primary extends Node
         this.PRODUCTION_ID = id; 
         this.a = a;
         this.i = i;
+        this.b = null;
+        this.e = null;
     }
 
     protected Primary(int id, Actuals a)
@@ -18,6 +20,9 @@ public class Primary extends Node
         super();
         this.PRODUCTION_ID = id; 
         this.a = a;
+        this.i = null;
+        this.b = null;
+        this.e = null;
     }
 
     protected Primary(int id, Block b)
@@ -25,6 +30,9 @@ public class Primary extends Node
         super();
         this.PRODUCTION_ID = id; 
         this.b = b;
+        this.a = null;
+        this.i = null;
+        this.e = null;
     }
 
     protected Primary(int id, Expr e)
@@ -32,12 +40,19 @@ public class Primary extends Node
         super();
         this.PRODUCTION_ID = id; 
         this.e = e;
+        this.b = null;
+        this.a = null;
+        this.i = null;
     }
 
     protected Primary(int id)
     {
         super();
         this.PRODUCTION_ID = id;
+        this.a = null;
+        this.e = null;
+        this.b = null;
+        this.i = null;
     }
 
     protected Primary(int id, Id i)
@@ -45,5 +60,8 @@ public class Primary extends Node
         super();
         this.PRODUCTION_ID = id;
         this.i = i;
+        this.b = null;
+        this.a = null;
+        this.e = null;
     }
 }

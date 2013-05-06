@@ -8,6 +8,7 @@ public class Program extends Node
         super();
         this.PRODUCTION_ID = id;
         this.c = c;
+        this.p = null;
     }
 
     protected Program(int id, ClassDecl c, Program p)

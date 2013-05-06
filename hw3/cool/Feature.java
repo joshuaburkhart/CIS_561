@@ -10,6 +10,9 @@ public class Feature extends Node
         super();
         this.PRODUCTION_ID = id;
         this.f = f;
+        this.f2 = null;
+        this.e = null;
+        this.b = null;
     }
 
     protected Feature(int id, FeatureSub1 f, Expr e)
@@ -18,6 +21,8 @@ public class Feature extends Node
         this.PRODUCTION_ID = id;
         this.f = f;
         this.e = e;
+        this.f2 = null;
+        this.b = null;
     }
 
     protected Feature(int id, FeatureSub2 f2)
@@ -25,6 +30,9 @@ public class Feature extends Node
         super();
         this.PRODUCTION_ID = id;
         this.f2 = f2;
+        this.f = null;
+        this.e = null;
+        this.b = null;
     }
 
     protected Feature(int id, FeatureSub2 f2, Expr e)
@@ -33,6 +41,8 @@ public class Feature extends Node
         this.PRODUCTION_ID = id;
         this.f2 = f2;
         this.e = e;
+        this.f = null;
+        this.b = null;
     }
 
     protected Feature(int id, Block b)
@@ -40,5 +50,8 @@ public class Feature extends Node
         super();
         this.PRODUCTION_ID = id;
         this.b = b;
+        this.f2 = null;
+        this.e = null;
+        this.f = null;
     }
 }

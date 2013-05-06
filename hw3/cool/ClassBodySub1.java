@@ -8,6 +8,7 @@ public class ClassBodySub1 extends Node
         super();
         this.PRODUCTION_ID = id;
         this.f = f;
+        this.c = null;
     }
 
     protected ClassBodySub1(int id, ClassBodySub1 c, Feature f)

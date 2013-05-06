@@ -10,9 +10,10 @@ public class ClassDecl extends Node
         this.PRODUCTION_ID = id;
         this.v = v;
         this.c = c;
+        this.a = null;
     }
 
-    protected ClassDecl(int id, VarFormals v, Actuals a, Classbody c)
+    protected ClassDecl(int id, VarFormals v, Actuals a, ClassBody c)
     {
         super();
         this.PRODUCTION_ID = id;

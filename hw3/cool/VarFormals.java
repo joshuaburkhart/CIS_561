@@ -7,6 +7,8 @@ public class VarFormals extends Node
     {
         super();
         this.PRODUCTION_ID = id;
+        this.v = null;
+        this.i = null;
     }
 
     protected VarFormals(int id, Id i)
@@ -14,6 +16,7 @@ public class VarFormals extends Node
         super();
         this.PRODUCTION_ID = id;
         this.i = i;
+        this.v = null;
     }
 
     protected VarFormals(int id, VarFormalsSub1 v, Id i)

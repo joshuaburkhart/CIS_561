@@ -8,6 +8,7 @@ public class ActualsSub1 extends Node
         super();
         this.PRODUCTION_ID = id;
         this.e = e;
+        this.a = null;
     }
 
     protected ActualsSub1(int id, ActualsSub1 a, Expr e)
