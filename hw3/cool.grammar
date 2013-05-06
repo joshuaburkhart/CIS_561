@@ -1,0 +1,161 @@
+
+%header {: import beaver.Parser; :};
+
+%terminals ID, LPAREN, LBRACE, NULL, SUPER, NEW, MINUS, INTEGER, STRING, BOOLEAN, THIS, IF, WHILE, NOT, RPAREN, TYPE, COLON, VAR, RBRACE, SEMI, ASSIGN, CASE, DEF, NATIVE, COMMA, ARROW, DOT, CLASS, ELSE, EXTENDS, OVERRIDE, LE, LT, EQUALS, TIMES, DIV, PLUS, MATCH;
+
+%class "Parser4Cool";
+
+%goal program;
+
+program
+    = classdecl.c                                                {: return new Program(c);   :}
+    | classdecl.c program.p                                      {: return new Program(c,p); :}
+    ;
+
+classdecl
+    = CLASS TYPE varformals.v classbody.c                        {: return new ClassDecl(v,c); :}
+    | CLASS TYPE varformals.v EXTENDS TYPE actuals.a classbody.c {: return new ClassDecl(v,a,c); :}
+    | CLASS TYPE varformals.v EXTENDS NATIVE classbody.c         {: return new ClassDecl(c,v); :}
+    ;
+
+varformals
+    = LPAREN RPAREN                                              {: return new EmptyVarFormals(); :}
+    | LPAREN VAR ID COLON TYPE RPAREN                            {: return new VarFormals(); :}
+    | LPAREN varformals_sub1.v VAR ID COLON TYPE RPAREN          {: return new VarFormals(v); :}
+    ;
+
+varformals_sub1
+    = VAR ID COLON TYPE COMMA                                    {: return new VarFormalsSub1(); :}
+    | varformals_sub1.v VAR ID COLON TYPE COMMA                  {: return new VarFormalsSub1(v); :}
+    ;
+
+classbody
+    = LBRACE RBRACE                                              {: return new ClassBody(); :}
+    | LBRACE feature.f RBRACE                                    {: return new ClassBody(f); :}
+    | LBRACE classbody_sub1.c feature.f RBRACE                   {: return new ClassBody(c,f); :}   
+    ;
+
+classbody_sub1
+    = feature.f                                                  {: return new ClassBodySub1(f); :}
+    | classbody_sub1.c feature.f                                 {: return new ClassBodySub1(c,f); :}
+    ;
+
+feature
+    = feature_sub1.f NATIVE SEMI                                 {: return new NativeFeature(f); :}
+    | feature_sub1.f expr.e SEMI                                 {: return new NativeFeature(f,e); :}
+    | OVERRIDE feature_sub1.f NATIVE SEMI                        {: return new OverrideFeature(f); :}
+    | OVERRIDE feature_sub1.f expr.e SEMI                        {: return new OverrideFeature(f,e); :}
+    | feature_sub2.f ASSIGN NATIVE SEMI                          {: return new Feature(f); :}
+    | feature_sub2.f COLON TYPE ASSIGN expr.e SEMI               {: return new Feature(f,e); :}
+    | LBRACE block.b RBRACE SEMI                                 {: return new Feature(b); :}
+    ;  
+
+feature_sub1
+    = DEF ID formals.f COLON TYPE ASSIGN                         {: return new FeatureSub1(f); :}
+    ;
+
+feature_sub2
+    = VAR ID                                                     {: return new FeatureSub2(); :}
+    ;
+
+formals
+    = LPAREN RPAREN                                              {: return new EmptyFormals(); :}
+    | LPAREN ID COLON TYPE RPAREN                                {: return new Formals(); :}
+    | LPAREN formals_sub1.f ID COLON TYPE RPAREN                 {: return new Formals(f); :}
+    ;
+
+formals_sub1
+    = ID COLON TYPE COMMA                                        {: return new FormalsSub1(); :}
+    | formals_sub1.f ID COLON TYPE COMMA                         {: return new FormalsSub1(f); :}
+    ;
+
+actuals
+    = LPAREN RPAREN                                              {: return new Actuals(); :}
+    | LPAREN expr.e RPAREN                                       {: return new Actuals(e); :}
+    | LPAREN actuals_sub1.a expr.e RPAREN                        {: return new Actuals(a,e); :} 
+    ;
+
+actuals_sub1
+    = expr.e COMMA                                               {: return new ActualsSub1(e); :}
+    | actuals_sub1.a expr COMMA                                  {: return new ActualsSub1(a); :}
+    ;
+
+block
+    =                                                            {: return new Block(); :}
+    | expr.e                                                     {: return new Block(e); :}
+    | block_sub1.b expr.e                                        {: return new Block(b,e); :}
+    ;
+
+
+block_sub1
+    = expr.e SEMI                                                {: return new SimpleBlockSub1(e); :}
+    | block_sub1.b expr.e SEMI                                   {: return new SimpleBlockSub1(b,e); :}
+    | VAR ID COLON TYPE ASSIGN expr.e SEMI                       {: return new BlockSub1(e); :}
+    | block_sub1.b VAR ID COLON TYPE ASSIGN expr.e SEMI          {: return new BlockSub1(e,b); :}
+    ;
+
+expr
+    = primary.p                                                  {: return new Primary(p); :}
+    | primary.p expr_sub1.e                                      {: return new Primary(p,e); :}
+    | expr_sub2.e primary.p                                      {: return new Primary(e,p); :}
+    | expr_sub2.e2 primary.p expr_sub1.e1                        {: return new Primary(e2,p,e1); :}
+    ;
+
+expr_sub1
+    = expr_sub1_1.e11 LPAREN expr.e RPAREN                       {: return new ExprSub1(e11,e); :}
+    | expr_sub1.e1 expr_sub1_1.e11 LPAREN expr.e RPAREN          {: return new ExprSub1(e1,e11,e); :}
+    | MATCH cases.c                                              {: return new ExprSub1(c); :}
+    | expr_sub1.e1 MATCH cases.c                                 {: return new ExprSub1(e1,c); :}
+    | DOT ID actuals.a                                           {: return new ExprSub1(a); :}
+    | expr_sub1.e1 DOT ID actuals.a                              {: return new ExprSub1(e1,a); :}
+    ;
+
+expr_sub1_1
+    = LE                                                         {: return new ExprSub11(0); :}
+    | LT                                                         {: return new ExprSub11(1); :}
+    | EQUALS                                                     {: return new ExprSub11(2); :}
+    | TIMES                                                      {: return new ExprSub11(3); :}
+    | DIV                                                        {: return new ExprSub11(4); :}
+    | PLUS                                                       {: return new ExprSub11(5); :}
+    | MINUS                                                      {: return new ExprSub11(6); :}
+    ;
+
+expr_sub2
+    = ID ASSIGN                                                  {: return new ExprSub2(0); :}
+    | expr_sub2.e2 ID ASSIGN                                     {: return new ExprSub2(e2,0); :}
+    | NOT                                                        {: return new ExprSub2(1); :}
+    | expr_sub2.e2 NOT                                           {: return new ExprSub2(e2,1); :}
+    | MINUS                                                      {: return new ExprSub2(2); :}
+    | expr_sub2.e2 MINUS                                         {: return new ExprSub2(e2,2); :}
+    | IF LPAREN expr.e RPAREN expr.ee ELSE                       {: return new ExprSub2(e,ee); :}
+    | expr_sub2.e2 IF LPAREN expr.e RPAREN expr.ee ELSE          {: return new ExprSub2(e2,e,ee); :}
+    | WHILE LPAREN expr.e RPAREN                                 {: return new ExprSub2(e); :}
+    | expr_sub2.e2 WHILE LPAREN expr.e RPAREN                    {: return new ExprSub2(e2,e); :}
+    ;
+
+primary
+    = ID actuals.a                                               {: return new Primary(a,0); :}
+    | SUPER DOT ID actuals.a                                     {: return new Primary(a,1); :}
+    | NEW TYPE actuals.a                                         {: return new Primary(a,2); :}
+    | LBRACE block.b RBRACE                                      {: return new Primary(b); :}
+    | LPAREN expr.e RPAREN                                       {: return new Primary(e); :}
+    | NULL                                                       {: return new Primary(3); :}
+    | LPAREN RPAREN                                              {: return new Primary(4); :}
+    | ID                                                         {: return new Primary(5); :}
+    | INTEGER                                                    {: return new Primary(6); :}
+    | STRING                                                     {: return new Primary(7); :}
+    | BOOLEAN                                                    {: return new Primary(8); :}
+    | THIS                                                       {: return new Primary(9); :}
+    ;
+
+cases
+    = LBRACE cases_sub1.c1 RBRACE                                {: return new Cases(c1); :}
+    ;
+
+cases_sub1
+    = CASE ID COLON TYPE ARROW block.b                           {: return new CasesSub1(b,0); :}
+    | cases_sub1.c1 CASE ID COLON TYPE ARROW block.b             {: return new CasesSub1(c1,b,0); :}
+    | CASE NULL ARROW block.b                                    {: return new CasesSub1(b,1); :}
+    | cases_sub1.c1 CASE NULL ARROW block.b                      {: return new CasesSub1(c1,b,1); :}
+    ;
+
