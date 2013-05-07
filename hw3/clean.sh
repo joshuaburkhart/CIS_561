@@ -5,5 +5,6 @@
 #Usage: clean.sh
 
 rm *.class
+rm Terminals.java
 rm *4Cool*
 rm cool/*.class

@@ -3,9 +3,9 @@ public class Primary extends Node
     public final Actuals a;
     public final Block b;
     public final Expr e;
-    public final Id i;
+    public final String i;
 
-    protected Primary(int id, Actuals a, Id i)
+    protected Primary(int id, Actuals a, String i)
     {
         super();
         this.PRODUCTION_ID = id; 
@@ -55,7 +55,7 @@ public class Primary extends Node
         this.i = null;
     }
 
-    protected Primary(int id, Id i)
+    protected Primary(int id, String i)
     {
         super();
         this.PRODUCTION_ID = id;

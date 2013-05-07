@@ -5,7 +5,7 @@ public class ExprSub1 extends Node
     public final ExprSub1 e1;
     public final Cases c;
     public final Actuals a;
-    public final Id i;
+    public final String i;
 
     protected ExprSub1(int id, ExprSub11 e11, Expr e)
     {
@@ -55,7 +55,7 @@ public class ExprSub1 extends Node
         this.i = null;
     }
 
-    protected ExprSub1(int id, Actuals a, Id i)
+    protected ExprSub1(int id, Actuals a, String i)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -67,7 +67,7 @@ public class ExprSub1 extends Node
         this.e = null;
     }
 
-    protected ExprSub1(int id, ExprSub1 e1, Actuals a, Id i)
+    protected ExprSub1(int id, ExprSub1 e1, Actuals a, String i)
     {
         super();
         this.PRODUCTION_ID = id;

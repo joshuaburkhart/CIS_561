@@ -1,9 +1,9 @@
 public class FeatureSub1 extends Node
 {
     public final Formals f;
-    public final Id i;
+    public final String i;
 
-    protected FeatureSub1(int id, Formals f, Id i)
+    protected FeatureSub1(int id, Formals f, String i)
     {
         super();
         this.PRODUCTION_ID = id;

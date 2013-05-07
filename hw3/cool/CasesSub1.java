@@ -2,9 +2,9 @@ public class CasesSub1 extends Node
 {
     public final Block b;
     public final CasesSub1 c1;
-    public final Id i;
+    public final String i;
 
-    protected CasesSub1(int id, Block b, Id i)
+    protected CasesSub1(int id, Block b, String i)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -13,7 +13,7 @@ public class CasesSub1 extends Node
         this.c1 = null;
     }
 
-    protected CasesSub1(int id, CasesSub1 c1, Block b, Id i)
+    protected CasesSub1(int id, CasesSub1 c1, Block b, String i)
     {
         super();
         this.PRODUCTION_ID = id;

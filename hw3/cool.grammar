@@ -5,13 +5,36 @@
 
 %class "Parser4Cool";
 
-%typeof ID = "Id";
+%typeof ID = "String";
+%typeof program = "Program";
+%typeof classdecl = "ClassDecl";
+%typeof varformals = "VarFormals";
+%typeof varformals_sub1 = "VarFormalsSub1";
+%typeof classbody = "ClassBody";
+%typeof classbody_sub1 = "ClassBodySub1";
+%typeof feature = "Feature";
+%typeof feature_sub1 = "FeatureSub1";
+%typeof feature_sub2 = "FeatureSub2";
+%typeof formals = "Formals";
+%typeof formals_sub1 = "FormalsSub1";
+%typeof actuals = "Actuals";
+%typeof actuals_sub1 = "ActualsSub1";
+%typeof block = "Block";
+%typeof block_sub1 = "BlockSub1";
+%typeof expr = "Expr";
+%typeof expr_sub1 = "ExprSub1";
+%typeof expr_sub1_1 = "ExprSub11";
+%typeof expr_sub2 = "ExprSub2";
+%typeof primary = "Primary";
+%typeof cases = "Cases";
+%typeof cases_sub1 = "CasesSub1";
 
 %goal program;
 
 program
     = classdecl.c                                                {: return new Program(0,c);   :}
     | classdecl.c program.p                                      {: return new Program(1,c,p); :}
+    | error                                                      {: return new ErrorNode(-1); :}
     ;
 
 classdecl
@@ -47,8 +70,8 @@ feature
     | feature_sub1.f expr.e SEMI                                 {: return new Feature(16,f,e); :}
     | OVERRIDE feature_sub1.f NATIVE SEMI                        {: return new Feature(17,f); :}
     | OVERRIDE feature_sub1.f expr.e SEMI                        {: return new Feature(18,f,e); :}
-    | feature_sub2.f ASSIGN NATIVE SEMI                          {: return new Feature(19,f2); :}
-    | feature_sub2.f COLON TYPE ASSIGN expr.e SEMI               {: return new Feature(20,f2,e); :}
+    | feature_sub2.f2 ASSIGN NATIVE SEMI                         {: return new Feature(19,f2); :}
+    | feature_sub2.f2 COLON TYPE ASSIGN expr.e SEMI              {: return new Feature(20,f2,e); :}
     | LBRACE block.b RBRACE SEMI                                 {: return new Feature(21,b); :}
     ;  
 

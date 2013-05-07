@@ -18,7 +18,7 @@ import java.util.ArrayList;
 %type Symbol
 %yylexthrow Scanner.Exception
 %eofval{
-    return new Symbol(Terminals.EOF, "end-of-file");
+    return newToken(Terminals.EOF, "end-of-file");
 %eofval}
 %unicode
 %line
@@ -27,12 +27,12 @@ import java.util.ArrayList;
     private StringBuffer string = new StringBuffer();
     private ArrayList<ErrorReport> errors = new ArrayList<ErrorReport>();
     
-    private Symbol newSymbol(short id)
+    private Symbol newToken(short id)
     {
         return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), yytext());
     }
 
-    private Symbol newSymbol(short id, Object value)
+    private Symbol newToken(short id, Object value)
     {
         return new Symbol(id, yyline + 1, yycolumn + 1, yylength(), value);
     }
@@ -53,45 +53,45 @@ Illegal        = abstract|catch|do|final|finally|for|forSome|implicit|import|laz
 %%
 
 <YYINITIAL> {
-    null                 {return newSymbol(Terminals.NULL,yytext());}
-    super                {return newSymbol(Terminals.SUPER,yytext());}
-    new                  {return newSymbol(Terminals.NEW,yytext());}
-    this                 {return newSymbol(Terminals.THIS,yytext());}
-    var                  {return newSymbol(Terminals.VAR,yytext());}
-    native               {return newSymbol(Terminals.NATIVE,yytext());}
-    not                  {return newSymbol(Terminals.NOT,yytext());}
-    case                 {return newSymbol(Terminals.CASE,yytext());}
-    class                {return newSymbol(Terminals.CLASS,yytext());}
-    while                {return newSymbol(Terminals.WHILE,yytext());}
-    if                   {return newSymbol(Terminals.IF,yytext());}
-    def                  {return newSymbol(Terminals.DEF,yytext());}
-    else                 {return newSymbol(Terminals.ELSE,yytext());}
-    match                {return newSymbol(Terminals.MATCH,yytext());}
-    extends              {return newSymbol(Terminals.EXTENDS,yytext());}
-    override             {return newSymbol(Terminals.OVERRIDE,yytext());}
-    "("                  {return newSymbol(Terminals.LPAREN,yytext());}
-    "{"                  {return newSymbol(Terminals.LBRACE,yytext());}
-    "-"                  {return newSymbol(Terminals.MINUS,yytext());}
-    "<"                  {return newSymbol(Terminals.LT,yytext());}
-    "<="                 {return newSymbol(Terminals.LE,yytext());}
-    "=="                 {return newSymbol(Terminals.EQUALS,yytext());}
-    "*"                  {return newSymbol(Terminals.TIMES,yytext());}
-    "/"                  {return newSymbol(Terminals.DIV,yytext());}
-    "+"                  {return newSymbol(Terminals.PLUS,yytext());}
-    "!"                  {return newSymbol(Terminals.NOT,yytext());}
-    ")"                  {return newSymbol(Terminals.RPAREN,yytext());}
-    ":"                  {return newSymbol(Terminals.COLON,yytext());}
-    "}"                  {return newSymbol(Terminals.RBRACE,yytext());}
-    ";"                  {return newSymbol(Terminals.SEMI,yytext());}
-    "="                  {return newSymbol(Terminals.ASSIGN,yytext());}
-    ","                  {return newSymbol(Terminals.COMMA,yytext());}
-    "=>"                 {return newSymbol(Terminals.ARROW,yytext());}
-    "."                  {return newSymbol(Terminals.DOT,yytext());}
-    {Illegal}            {errors.add(new ErrorReport("Reserved Word '"+yytext()+"'",yyline + 1,yycolumn + 1)); return newSymbol(Terminals.ID,yytext());}
-    {Integer}            {return newSymbol(Terminals.INTEGER,yytext());}
-    {Boolean}            {return newSymbol(Terminals.BOOLEAN,yytext());}
-    {Type}               {return newSymbol(Terminals.TYPE,yytext());}
-    {Identifier}         {return newSymbol(Terminals.ID,yytext());}
+    null                 {return newToken(Terminals.NULL,       yytext());}
+    super                {return newToken(Terminals.SUPER,      yytext());}
+    new                  {return newToken(Terminals.NEW,        yytext());}
+    this                 {return newToken(Terminals.THIS,       yytext());}
+    var                  {return newToken(Terminals.VAR,        yytext());}
+    native               {return newToken(Terminals.NATIVE,     yytext());}
+    not                  {return newToken(Terminals.NOT,        yytext());}
+    case                 {return newToken(Terminals.CASE,       yytext());}
+    class                {return newToken(Terminals.CLASS,      yytext());}
+    while                {return newToken(Terminals.WHILE,      yytext());}
+    if                   {return newToken(Terminals.IF,         yytext());}
+    def                  {return newToken(Terminals.DEF,        yytext());}
+    else                 {return newToken(Terminals.ELSE,       yytext());}
+    match                {return newToken(Terminals.MATCH,      yytext());}
+    extends              {return newToken(Terminals.EXTENDS,    yytext());}
+    override             {return newToken(Terminals.OVERRIDE,   yytext());}
+    "("                  {return newToken(Terminals.LPAREN,     yytext());}
+    "{"                  {return newToken(Terminals.LBRACE,     yytext());}
+    "-"                  {return newToken(Terminals.MINUS,      yytext());}
+    "<"                  {return newToken(Terminals.LT,         yytext());}
+    "<="                 {return newToken(Terminals.LE,         yytext());}
+    "=="                 {return newToken(Terminals.EQUALS,     yytext());}
+    "*"                  {return newToken(Terminals.TIMES,      yytext());}
+    "/"                  {return newToken(Terminals.DIV,        yytext());}
+    "+"                  {return newToken(Terminals.PLUS,       yytext());}
+    "!"                  {return newToken(Terminals.NOT,        yytext());}
+    ")"                  {return newToken(Terminals.RPAREN,     yytext());}
+    ":"                  {return newToken(Terminals.COLON,      yytext());}
+    "}"                  {return newToken(Terminals.RBRACE,     yytext());}
+    ";"                  {return newToken(Terminals.SEMI,       yytext());}
+    "="                  {return newToken(Terminals.ASSIGN,     yytext());}
+    ","                  {return newToken(Terminals.COMMA,      yytext());}
+    "=>"                 {return newToken(Terminals.ARROW,      yytext());}
+    "."                  {return newToken(Terminals.DOT,        yytext());}
+    {Illegal}            {errors.add(new ErrorReport("Reserved Word '"+yytext()+"'",yyline + 1,yycolumn + 1)); return newToken(Terminals.ID,yytext());}
+    {Integer}            {return newToken(Terminals.INTEGER,    yytext());}
+    {Boolean}            {return newToken(Terminals.BOOLEAN,    yytext());}
+    {Type}               {return newToken(Terminals.TYPE,       yytext());}
+    {Identifier}         {return newToken(Terminals.ID,         yytext());}
     \"                   {string.setLength(0); yybegin(SIMPLE_STRING);}
     \"\"\"               {string.setLength(0); yybegin(OTHER_STRING);}
     \/\/                 {yybegin(EOL_COMMENT);}
@@ -110,7 +110,7 @@ Illegal        = abstract|catch|do|final|finally|for|forSome|implicit|import|laz
 }
 
 <SIMPLE_STRING> {
-    \"|{LineTerminator}  {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
+    \"|{LineTerminator}  {yybegin(YYINITIAL); return newToken(Terminals.STRING,string.toString());}
     \\0                  {string.append('\0');}
     \\b                  {string.append('\b');}
     \\t                  {string.append('\t');}
@@ -121,7 +121,7 @@ Illegal        = abstract|catch|do|final|finally|for|forSome|implicit|import|laz
 }
 
 <OTHER_STRING> {
-    \"\"\"               {yybegin(YYINITIAL); return newSymbol(Terminals.STRING,string.toString());}
+    \"\"\"               {yybegin(YYINITIAL); return newToken(Terminals.STRING,string.toString());}
     \\0                  {string.append('\0');}
     \\b                  {string.append('\b');}
     \\t                  {string.append('\t');}

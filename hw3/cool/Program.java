@@ -3,6 +3,13 @@ public class Program extends Node
     public final ClassDecl c;
     public final Program p;
 
+    protected Program()
+    {
+        super();
+        this.c = null;
+        this.p = null;
+    }
+
     protected Program(int id,ClassDecl c)
     {
         super();

@@ -1,7 +1,7 @@
 public class Formals extends Node
 {
     public final FormalsSub1 f;
-    public final Id i;
+    public final String i;
 
     protected Formals(int id)
     {
@@ -11,7 +11,7 @@ public class Formals extends Node
         this.f = null;
     }
 
-    protected Formals(int id, Id i)
+    protected Formals(int id, String i)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -19,7 +19,7 @@ public class Formals extends Node
         this.f = null;
     }
 
-    protected Formals(int id, FormalsSub1 f, Id i)
+    protected Formals(int id, FormalsSub1 f, String i)
     {
         super();
         this.PRODUCTION_ID = id;

@@ -2,7 +2,7 @@ public class BlockSub1 extends Node
 {
     public final Expr e;
     public final BlockSub1 b;
-    public final Id i;
+    public final String i;
 
     protected BlockSub1(int id, Expr e)
     {
@@ -22,7 +22,7 @@ public class BlockSub1 extends Node
         this.i = null;
     }
 
-    protected BlockSub1(int id, Expr e, Id i)
+    protected BlockSub1(int id, Expr e, String i)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -31,7 +31,7 @@ public class BlockSub1 extends Node
         this.b = null;
     }
 
-    protected BlockSub1(int id, Expr e, BlockSub1 b, Id i)
+    protected BlockSub1(int id, Expr e, BlockSub1 b, String i)
     {
         super();
         this.PRODUCTION_ID = id;

@@ -9,11 +9,11 @@ java -jar beaver-cc.jar -T cool.grammar \
 && \
 jflex lexer_spec.jflex                  \
 && \
-javac -cp beaver-rt-0.9.11.jar:.        \
+javac -cp beaver-rt-0.9.11.jar:cool/:.  \
 Terminals.java                          \
-cool/ErrorReport.java                   \
+cool/*.java                             \
 Lexer4Cool.java                         \
 Parser4Cool.java                        \
 Printer.java                            \
 && \
-java -classpath beaver-rt-0.9.11.jar:. Printer $1
+java -classpath beaver-rt-0.9.11.jar:cool/:. Printer $1

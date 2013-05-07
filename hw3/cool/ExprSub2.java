@@ -3,9 +3,9 @@ public class ExprSub2 extends Node
     public final ExprSub2 e2;
     public final Expr e;
     public final Expr ee;
-    public final Id i;
+    public final String i;
 
-    protected ExprSub2(int id, Id i)
+    protected ExprSub2(int id, String i)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -15,7 +15,7 @@ public class ExprSub2 extends Node
         this.e2 = null;
     }
 
-    protected ExprSub2(int id, ExprSub2 e2, Id i)
+    protected ExprSub2(int id, ExprSub2 e2, String i)
     {
         super();
         this.PRODUCTION_ID = id;

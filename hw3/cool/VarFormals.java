@@ -1,7 +1,7 @@
 public class VarFormals extends Node
 {
     public final VarFormalsSub1 v;
-    public final Id i;
+    public final String i;
 
     protected VarFormals(int id)
     {
@@ -11,7 +11,7 @@ public class VarFormals extends Node
         this.i = null;
     }
 
-    protected VarFormals(int id, Id i)
+    protected VarFormals(int id, String i)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -19,7 +19,7 @@ public class VarFormals extends Node
         this.v = null;
     }
 
-    protected VarFormals(int id, VarFormalsSub1 v, Id i)
+    protected VarFormals(int id, VarFormalsSub1 v, String i)
     {
         super();
         this.PRODUCTION_ID = id;
