@@ -127,8 +127,10 @@ expr
     ;
 
 expr_sub1
-    = expr_sub1_1.e11 LPAREN expr.e RPAREN                       {: return new ExprSub1(45,e11,e); :}
-    | expr_sub1.e1 expr_sub1_1.e11 LPAREN expr.e RPAREN          {: return new ExprSub1(46,e1,e11,e); :}
+    = expr_sub1_1.e11 expr_sub2.e2 primary.p                     {: return new ExprSub1(45,e11,e2,p); :}
+    | expr_sub1_1.e11 primary.p                                  {: return new ExprSub1(451,e11,p); :}
+    | expr_sub1.e1 expr_sub1_1.e11 expr_sub2.e2 primary.p        {: return new ExprSub1(46,e1,e11,e2,p); :}
+    | expr_sub1.e1 expr_sub1_1.e11 primary.p                     {: return new ExprSub1(461,e1,e11,p); :}
     | MATCH cases.c                                              {: return new ExprSub1(47,c); :}
     | expr_sub1.e1 MATCH cases.c                                 {: return new ExprSub1(48,e1,c); :}
     | DOT ID.i actuals.a                                         {: return new ExprSub1(49,a,i); :}
