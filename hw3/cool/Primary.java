@@ -4,6 +4,7 @@ public class Primary extends Node
     public final Block b;
     public final Expr e;
     public final String i;
+    public final String n;
 
     protected Primary(int id, Actuals a, String i)
     {
@@ -13,6 +14,7 @@ public class Primary extends Node
         this.i = i;
         this.b = null;
         this.e = null;
+        this.n = null;
     }
 
     protected Primary(int id, Actuals a)
@@ -23,6 +25,7 @@ public class Primary extends Node
         this.i = null;
         this.b = null;
         this.e = null;
+        this.n = null;
     }
 
     protected Primary(int id, Block b)
@@ -33,6 +36,7 @@ public class Primary extends Node
         this.a = null;
         this.i = null;
         this.e = null;
+        this.n = null;
     }
 
     protected Primary(int id, Expr e)
@@ -43,12 +47,25 @@ public class Primary extends Node
         this.b = null;
         this.a = null;
         this.i = null;
+        this.n = null;
     }
 
     protected Primary(int id)
     {
         super();
         this.PRODUCTION_ID = id;
+        this.a = null;
+        this.e = null;
+        this.b = null;
+        this.i = null;
+        this.n = null;
+    }
+
+    protected Primary(String n, int id)
+    {
+        super();
+        this.PRODUCTION_ID = id;
+        this.n = n;
         this.a = null;
         this.e = null;
         this.b = null;
@@ -63,5 +80,6 @@ public class Primary extends Node
         this.b = null;
         this.a = null;
         this.e = null;
+        this.n = null;
     }
 }

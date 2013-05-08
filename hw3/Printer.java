@@ -38,7 +38,7 @@ class Printer
 
     static private void print(String prefix, Node n)
     {
-        prefix = prefix + "\t";
+        prefix = prefix + " ";
         switch(n.PRODUCTION_ID){
             case -1:
                 System.out.println("error detected...");
@@ -57,7 +57,8 @@ class Printer
             case 2:
                 VarFormals v2 = ((ClassDecl) n).v;
                 ClassBody c2 = ((ClassDecl) n).c;
-                System.out.println(prefix + "CLASS TYPE");
+                String t2 = ((ClassDecl) n).t;
+                System.out.println(prefix + "CLASS " + t2);
                 print(prefix,v2);
                 print(prefix,c2);
                 break;
@@ -65,7 +66,8 @@ class Printer
                 VarFormals v3 = ((ClassDecl) n).v;
                 Actuals a3 = ((ClassDecl) n).a;
                 ClassBody c3 = ((ClassDecl) n).c;
-                System.out.println(prefix + "CLASS TYPE");
+                String t3 = ((ClassDecl) n).t;
+                System.out.println(prefix + "CLASS " + t3);
                 print(prefix,v3);
                 System.out.println(prefix + "EXTENDS TYPE");
                 print(prefix,a3);
@@ -74,7 +76,8 @@ class Printer
             case 4:
                 VarFormals v4 = ((ClassDecl) n).v;
                 ClassBody c4 = ((ClassDecl) n).c;
-                System.out.println(prefix + "CLASS TYPE");
+                String t4 = ((ClassDecl) n).t;
+                System.out.println(prefix + "CLASS " + t4);
                 print(prefix,v4);
                 System.out.println(prefix + "EXTENDS NATIVE");
                 print(prefix,c4);
@@ -84,32 +87,36 @@ class Printer
                 break;
             case 6:
                 String i6 = ((VarFormals) n).i;
+                String t6 = ((VarFormals) n).t;
                 System.out.println(prefix + "( VAR");
                 System.out.println(prefix + i6);
-                System.out.println(prefix + ": TYPE )");
+                System.out.println(prefix + ": " + t6 + " )");
                 break;
             case 7:
                 VarFormalsSub1 v7 = ((VarFormals) n).v;
                 String i7 = ((VarFormals) n).i;
+                String t7 = ((VarFormals) n).t;
                 System.out.println(prefix + "(");
                 print(prefix,v7);
                 System.out.println(prefix + "VAR");
                 System.out.println(prefix + i7);
-                System.out.println(prefix + ": TYPE )");
+                System.out.println(prefix + ": " + t7 + " )");
                 break;
             case 8:
                 String i8 = ((VarFormalsSub1) n).i;
+                String t8 = ((VarFormalsSub1) n).t;
                 System.out.println(prefix + "VAR");
                 System.out.println(prefix + i8);
-                System.out.println(prefix + ": TYPE ,");
+                System.out.println(prefix + ": " + t8 + " ,");
                 break;
             case 9:
                 VarFormalsSub1 v9 = ((VarFormalsSub1) n).v;
                 String i9 = ((VarFormalsSub1) n).i;
+                String t9 = ((VarFormalsSub1) n).t;
                 print(prefix,v9);
                 System.out.println(prefix + "VAR");
                 System.out.println(prefix + i9);
-                System.out.println(prefix + ": TYPE ,");
+                System.out.println(prefix + ": " + t9 +  " ,");
                 break;
             case 10:
                 System.out.println(prefix + "()");
@@ -507,7 +514,8 @@ class Printer
                 System.out.println(prefix + i75);
                 break;
             case 76:
-                System.out.println(prefix + "INTEGER");
+                String n76 = ((Primary) n).n;
+                System.out.println(prefix + n76);
                 break;
             case 77:
                 System.out.println(prefix + "STRING");

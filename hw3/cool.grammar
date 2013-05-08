@@ -6,6 +6,11 @@
 %class "Parser4Cool";
 
 %typeof ID = "String";
+%typeof INTEGER = "String";
+%typeof TYPE = "String";
+//%typeof BOOLEAN = "Boolean";
+//%typeof STRING = "String";
+
 %typeof program = "Program";
 %typeof classdecl = "ClassDecl";
 %typeof varformals = "VarFormals";
@@ -38,20 +43,20 @@ program
     ;
 
 classdecl
-    = CLASS TYPE varformals.v classbody.c                        {: return new ClassDecl(2,v,c); :}
-    | CLASS TYPE varformals.v EXTENDS TYPE actuals.a classbody.c {: return new ClassDecl(3,v,a,c); :}
-    | CLASS TYPE varformals.v EXTENDS NATIVE classbody.c         {: return new ClassDecl(4,v,c); :}
+    = CLASS TYPE.t varformals.v classbody.c                        {: return new ClassDecl(2,v,c,t); :}
+    | CLASS TYPE.t varformals.v EXTENDS TYPE actuals.a classbody.c {: return new ClassDecl(3,v,a,c,t); :}
+    | CLASS TYPE.t varformals.v EXTENDS NATIVE classbody.c         {: return new ClassDecl(4,v,c,t); :}
     ;
 
 varformals
     = LPAREN RPAREN                                              {: return new VarFormals(5); :}
-    | LPAREN VAR ID.i COLON TYPE RPAREN                          {: return new VarFormals(6,i); :}
-    | LPAREN varformals_sub1.v VAR ID.i COLON TYPE RPAREN        {: return new VarFormals(7,v,i); :}
+    | LPAREN VAR ID.i COLON TYPE.t RPAREN                        {: return new VarFormals(6,i,t); :}
+    | LPAREN varformals_sub1.v VAR ID.i COLON TYPE.t RPAREN      {: return new VarFormals(7,v,i,t); :}
     ;
 
 varformals_sub1
-    = VAR ID.i COLON TYPE COMMA                                  {: return new VarFormalsSub1(8,i); :}
-    | varformals_sub1.v VAR ID.i COLON TYPE COMMA                {: return new VarFormalsSub1(9,v,i); :}
+    = VAR ID.i COLON TYPE.t COMMA                                {: return new VarFormalsSub1(8,i,t); :}
+    | varformals_sub1.v VAR ID.i COLON TYPE.t COMMA              {: return new VarFormalsSub1(9,v,i,t); :}
     ;
 
 classbody
@@ -169,7 +174,7 @@ primary
     | NULL                                                       {: return new Primary(73); :}
     | LPAREN RPAREN                                              {: return new Primary(74); :}
     | ID.i                                                       {: return new Primary(75,i); :}
-    | INTEGER                                                    {: return new Primary(76); :}
+    | INTEGER.n                                                  {: return new Primary(n,76); :}
     | STRING                                                     {: return new Primary(77); :}
     | BOOLEAN                                                    {: return new Primary(78); :}
     | THIS                                                       {: return new Primary(79); :}
