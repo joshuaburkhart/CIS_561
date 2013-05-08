@@ -5,6 +5,23 @@ public class Primary extends Node
     public final Expr e;
     public final String i;
     public final String n;
+    public final String t;
+    public final String o;
+    public final String s;
+
+    protected Primary(String t, int id, Actuals a)
+    {
+        super();
+        this.PRODUCTION_ID = id; 
+        this.a = a;
+        this.i = null;
+        this.b = null;
+        this.e = null;
+        this.n = null;
+        this.t = t;
+        this.o = null;
+        this.s = null;
+    }
 
     protected Primary(int id, Actuals a, String i)
     {
@@ -15,6 +32,9 @@ public class Primary extends Node
         this.b = null;
         this.e = null;
         this.n = null;
+        this.t = null;
+        this.o = null;
+        this.s = null;
     }
 
     protected Primary(int id, Actuals a)
@@ -26,6 +46,9 @@ public class Primary extends Node
         this.b = null;
         this.e = null;
         this.n = null;
+        this.t = null;
+        this.o = null;
+        this.s = null;
     }
 
     protected Primary(int id, Block b)
@@ -37,6 +60,9 @@ public class Primary extends Node
         this.i = null;
         this.e = null;
         this.n = null;
+        this.t = null;
+        this.o = null;
+        this.s = null;
     }
 
     protected Primary(int id, Expr e)
@@ -48,6 +74,9 @@ public class Primary extends Node
         this.a = null;
         this.i = null;
         this.n = null;
+        this.t = null;
+        this.o = null;
+        this.s = null;
     }
 
     protected Primary(int id)
@@ -59,6 +88,9 @@ public class Primary extends Node
         this.b = null;
         this.i = null;
         this.n = null;
+        this.t = null;
+        this.o = null;
+        this.s = null;
     }
 
     protected Primary(String n, int id)
@@ -70,6 +102,9 @@ public class Primary extends Node
         this.e = null;
         this.b = null;
         this.i = null;
+        this.t = null;
+        this.o = null;
+        this.s = null;
     }
 
     protected Primary(int id, String i)
@@ -81,5 +116,36 @@ public class Primary extends Node
         this.a = null;
         this.e = null;
         this.n = null;
+        this.t = null;
+        this.o = null;
+        this.s = null;
+    }
+
+    protected Primary(int id, String o, int dummy)
+    {
+        super();
+        this.PRODUCTION_ID = id;
+        this.i = null;
+        this.b = null;
+        this.a = null;
+        this.e = null;
+        this.n = null;
+        this.t = null;
+        this.o = o;
+        this.s = null;
+    }
+
+    protected Primary(int id, String s, int dummy, int dummy2)
+    {
+        super();
+        this.PRODUCTION_ID = id;
+        this.i = null;
+        this.b = null;
+        this.a = null;
+        this.e = null;
+        this.n = null;
+        this.t = null;
+        this.o = null;
+        this.s = s;
     }
 }

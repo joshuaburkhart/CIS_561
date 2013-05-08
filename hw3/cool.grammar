@@ -8,8 +8,8 @@
 %typeof ID = "String";
 %typeof INTEGER = "String";
 %typeof TYPE = "String";
-//%typeof BOOLEAN = "Boolean";
-//%typeof STRING = "String";
+%typeof BOOLEAN = "String";
+%typeof STRING = "String";
 
 %typeof program = "Program";
 %typeof classdecl = "ClassDecl";
@@ -44,7 +44,7 @@ program
 
 classdecl
     = CLASS TYPE.t varformals.v classbody.c                        {: return new ClassDecl(2,v,c,t); :}
-    | CLASS TYPE.t varformals.v EXTENDS TYPE actuals.a classbody.c {: return new ClassDecl(3,v,a,c,t); :}
+    | CLASS TYPE.t varformals.v EXTENDS TYPE.tt actuals.a classbody.c {: return new ClassDecl(3,v,a,c,t,tt); :}
     | CLASS TYPE.t varformals.v EXTENDS NATIVE classbody.c         {: return new ClassDecl(4,v,c,t); :}
     ;
 
@@ -76,12 +76,12 @@ feature
     | OVERRIDE feature_sub1.f NATIVE SEMI                        {: return new Feature(17,f); :}
     | OVERRIDE feature_sub1.f expr.e SEMI                        {: return new Feature(18,f,e); :}
     | feature_sub2.f2 ASSIGN NATIVE SEMI                         {: return new Feature(19,f2); :}
-    | feature_sub2.f2 COLON TYPE ASSIGN expr.e SEMI              {: return new Feature(20,f2,e); :}
+    | feature_sub2.f2 COLON TYPE.t ASSIGN expr.e SEMI            {: return new Feature(20,f2,e,t); :}
     | LBRACE block.b RBRACE SEMI                                 {: return new Feature(21,b); :}
     ;  
 
 feature_sub1
-    = DEF ID.i formals.f COLON TYPE ASSIGN                       {: return new FeatureSub1(22,f,i); :}
+    = DEF ID.i formals.f COLON TYPE.t ASSIGN                     {: return new FeatureSub1(22,f,i,t); :}
     ;
 
 feature_sub2
@@ -90,13 +90,13 @@ feature_sub2
 
 formals
     = LPAREN RPAREN                                              {: return new Formals(24); :}
-    | LPAREN ID.i COLON TYPE RPAREN                              {: return new Formals(25,i); :}
-    | LPAREN formals_sub1.f ID.i COLON TYPE RPAREN               {: return new Formals(26,f,i); :}
+    | LPAREN ID.i COLON TYPE.t RPAREN                            {: return new Formals(25,i,t); :}
+    | LPAREN formals_sub1.f ID.i COLON TYPE.t RPAREN             {: return new Formals(26,f,i,t); :}
     ;
 
 formals_sub1
-    = ID.i COLON TYPE COMMA                                      {: return new FormalsSub1(27,i); :}
-    | formals_sub1.f ID.i COLON TYPE COMMA                       {: return new FormalsSub1(28,f,i); :}
+    = ID.i COLON TYPE.t COMMA                                    {: return new FormalsSub1(27,i,t); :}
+    | formals_sub1.f ID.i COLON TYPE.t COMMA                     {: return new FormalsSub1(28,f,i,t); :}
     ;
 
 actuals
@@ -120,8 +120,8 @@ block
 block_sub1
     = expr.e SEMI                                                {: return new BlockSub1(37,e); :}
     | block_sub1.b expr.e SEMI                                   {: return new BlockSub1(38,b,e); :}
-    | VAR ID.i COLON TYPE ASSIGN expr.e SEMI                     {: return new BlockSub1(39,e,i); :}
-    | block_sub1.b VAR ID.i COLON TYPE ASSIGN expr.e SEMI        {: return new BlockSub1(40,e,b,i); :}
+    | VAR ID.i COLON TYPE.t ASSIGN expr.e SEMI                   {: return new BlockSub1(39,e,i,t); :}
+    | block_sub1.b VAR ID.i COLON TYPE.t ASSIGN expr.e SEMI      {: return new BlockSub1(40,e,b,i,t); :}
     ;
 
 expr
@@ -168,15 +168,15 @@ expr_sub2
 primary
     = ID.i actuals.a                                             {: return new Primary(68,a,i); :}
     | SUPER DOT ID.i actuals.a                                   {: return new Primary(69,a,i); :}
-    | NEW TYPE actuals.a                                         {: return new Primary(70,a); :}
+    | NEW TYPE.t actuals.a                                       {: return new Primary(t,70,a); :}
     | LBRACE block.b RBRACE                                      {: return new Primary(71,b); :}
     | LPAREN expr.e RPAREN                                       {: return new Primary(72,e); :}
     | NULL                                                       {: return new Primary(73); :}
     | LPAREN RPAREN                                              {: return new Primary(74); :}
     | ID.i                                                       {: return new Primary(75,i); :}
     | INTEGER.n                                                  {: return new Primary(n,76); :}
-    | STRING                                                     {: return new Primary(77); :}
-    | BOOLEAN                                                    {: return new Primary(78); :}
+    | STRING.s                                                   {: return new Primary(77,s,0,0); :}
+    | BOOLEAN.o                                                  {: return new Primary(78,o,0); :}
     | THIS                                                       {: return new Primary(79); :}
     ;
 
@@ -185,8 +185,8 @@ cases
     ;
 
 cases_sub1
-    = CASE ID.i COLON TYPE ARROW block.b                         {: return new CasesSub1(81,b,i); :}
-    | cases_sub1.c1 CASE ID.i COLON TYPE ARROW block.b           {: return new CasesSub1(82,c1,b,i); :}
+    = CASE ID.i COLON TYPE.t ARROW block.b                       {: return new CasesSub1(81,b,i,t); :}
+    | cases_sub1.c1 CASE ID.i COLON TYPE.t ARROW block.b         {: return new CasesSub1(82,c1,b,i,t); :}
     | CASE NULL ARROW block.b                                    {: return new CasesSub1(83,b); :}
     | cases_sub1.c1 CASE NULL ARROW block.b                      {: return new CasesSub1(84,c1,b); :}
     ;

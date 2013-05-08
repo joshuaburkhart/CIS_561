@@ -4,6 +4,7 @@ public class Feature extends Node
     public final FeatureSub2 f2;
     public final Expr e;
     public final Block b;
+    public final String t;
 
     protected Feature(int id, FeatureSub1 f)
     {
@@ -13,6 +14,7 @@ public class Feature extends Node
         this.f2 = null;
         this.e = null;
         this.b = null;
+        this.t = null;
     }
 
     protected Feature(int id, FeatureSub1 f, Expr e)
@@ -23,6 +25,7 @@ public class Feature extends Node
         this.e = e;
         this.f2 = null;
         this.b = null;
+        this.t = null;
     }
 
     protected Feature(int id, FeatureSub2 f2)
@@ -33,9 +36,10 @@ public class Feature extends Node
         this.f = null;
         this.e = null;
         this.b = null;
+        this.t = null;
     }
 
-    protected Feature(int id, FeatureSub2 f2, Expr e)
+    protected Feature(int id, FeatureSub2 f2, Expr e, String t)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -43,6 +47,7 @@ public class Feature extends Node
         this.e = e;
         this.f = null;
         this.b = null;
+        this.t = t;
     }
 
     protected Feature(int id, Block b)
@@ -53,5 +58,6 @@ public class Feature extends Node
         this.f2 = null;
         this.e = null;
         this.f = null;
+        this.t = null;
     }
 }

@@ -67,9 +67,10 @@ class Printer
                 Actuals a3 = ((ClassDecl) n).a;
                 ClassBody c3 = ((ClassDecl) n).c;
                 String t3 = ((ClassDecl) n).t;
+                String tt3 = ((ClassDecl) n).tt;
                 System.out.println(prefix + "CLASS " + t3);
                 print(prefix,v3);
-                System.out.println(prefix + "EXTENDS TYPE");
+                System.out.println(prefix + "EXTENDS " + tt3);
                 print(prefix,a3);
                 print(prefix,c3);
                 break;
@@ -79,7 +80,7 @@ class Printer
                 String t4 = ((ClassDecl) n).t;
                 System.out.println(prefix + "CLASS " + t4);
                 print(prefix,v4);
-                System.out.println(prefix + "EXTENDS NATIVE");
+                System.out.println(prefix + "EXTENDS NATIVE ");
                 print(prefix,c4);
                 break;
             case 5:
@@ -88,9 +89,7 @@ class Printer
             case 6:
                 String i6 = ((VarFormals) n).i;
                 String t6 = ((VarFormals) n).t;
-                System.out.println(prefix + "( VAR");
-                System.out.println(prefix + i6);
-                System.out.println(prefix + ": " + t6 + " )");
+                System.out.println(prefix + "(VAR " + i6 + ": " + t6 + ")");
                 break;
             case 7:
                 VarFormalsSub1 v7 = ((VarFormals) n).v;
@@ -98,25 +97,19 @@ class Printer
                 String t7 = ((VarFormals) n).t;
                 System.out.println(prefix + "(");
                 print(prefix,v7);
-                System.out.println(prefix + "VAR");
-                System.out.println(prefix + i7);
-                System.out.println(prefix + ": " + t7 + " )");
+                System.out.println(prefix + "VAR " + i7 + ": " + t7 + ")");
                 break;
             case 8:
                 String i8 = ((VarFormalsSub1) n).i;
                 String t8 = ((VarFormalsSub1) n).t;
-                System.out.println(prefix + "VAR");
-                System.out.println(prefix + i8);
-                System.out.println(prefix + ": " + t8 + " ,");
+                System.out.println(prefix + "VAR " + i8 + ": " + t8 + ",");
                 break;
             case 9:
                 VarFormalsSub1 v9 = ((VarFormalsSub1) n).v;
                 String i9 = ((VarFormalsSub1) n).i;
                 String t9 = ((VarFormalsSub1) n).t;
                 print(prefix,v9);
-                System.out.println(prefix + "VAR");
-                System.out.println(prefix + i9);
-                System.out.println(prefix + ": " + t9 +  " ,");
+                System.out.println(prefix + "VAR " + i9 + ": " + t9 +  ",");
                 break;
             case 10:
                 System.out.println(prefix + "()");
@@ -179,8 +172,9 @@ class Printer
             case 20:
                 FeatureSub2 f220 = ((Feature) n).f2;
                 Expr e20 = ((Feature) n).e;
+                String t20 = ((Feature) n).t;
                 print(prefix,f220);
-                System.out.println(prefix + ": TYPE =");
+                System.out.println(prefix + ": " + t20 + " =");
                 print(prefix,e20);
                 System.out.println(prefix + ";");
                 break;
@@ -188,49 +182,48 @@ class Printer
                 Block b21 = ((Feature) n).b;
                 System.out.println(prefix + "{");
                 print(prefix,b21);
-                System.out.println(prefix + "} ;");
+                System.out.println(prefix + "};");
                 break;
             case 22:
                 Formals f22 = ((FeatureSub1) n).f;
                 String i22 = ((FeatureSub1) n).i;
-                System.out.println(prefix + "DEF");
-                System.out.println(prefix + i22);
+                String t22 = ((FeatureSub1) n).t;
+                System.out.println(prefix + "DEF " + i22);
                 print(prefix,f22);
-                System.out.println(prefix + ": TYPE =");
+                System.out.println(prefix + ": " + t22 +  " =");
                 break;
             case 23:
                 String i23 = ((FeatureSub2) n).i;
-                System.out.println(prefix + "VAR");
-                System.out.println(prefix + i23);
+                System.out.println(prefix + "VAR " + i23);
                 break;
             case 24:
                 System.out.println(prefix + "()");
                 break;
             case 25:
                 String i25 = ((Formals) n).i;
-                System.out.println(prefix + "(");
-                System.out.println(prefix + i25);
-                System.out.println(prefix + ": TYPE )");
+                String t25 = ((Formals) n).t;
+                System.out.println(prefix + "(" + i25 + ": " + t25 + ")");
                 break;
             case 26:
                 FormalsSub1 f26 = ((Formals) n).f;
                 String i26 = ((Formals) n).i;
+                String t26 = ((Formals) n).t;
                 System.out.println(prefix + "(");
                 print(prefix,f26);
-                System.out.println(prefix + i26);
-                System.out.println(prefix + ": TYPE )");
+                System.out.println(prefix + i26 + ": " + t26 + ")");
                 break;
             case 27:
                 String i27 = ((FormalsSub1) n).i;
+                String t27 = ((FormalsSub1) n).t;
                 System.out.println(prefix + i27);
-                System.out.println(prefix + ": TYPE ,");
+                System.out.println(prefix + ": " + t27 + ",");
                 break;
             case 28:
                 FormalsSub1 f28 = ((FormalsSub1) n).f;
                 String i28 = ((FormalsSub1) n).i;
+                String t28 = ((FormalsSub1) n).t;
                 print(prefix,f28);
-                System.out.println(prefix + i28);
-                System.out.println(prefix + ": TYPE ,");
+                System.out.println(prefix + i28 + ": " + t28 + ",");
                 break;
             case 29:
                 System.out.println(prefix + "()");
@@ -289,9 +282,8 @@ class Printer
             case 39:
                 Expr e39 = ((BlockSub1) n).e;
                 String i39 = ((BlockSub1) n).i;
-                System.out.println(prefix + "VAR");
-                System.out.println(prefix + i39);
-                System.out.println(prefix + ": TYPE =");
+                String t39 = ((BlockSub1) n).t;
+                System.out.println(prefix + "VAR " + i39 + ": " + t39 + " =");
                 print(prefix,e39);
                 System.out.println(prefix + ";");
                 break;
@@ -299,10 +291,9 @@ class Printer
                 BlockSub1 b40 = ((BlockSub1) n).b;
                 String i40 = ((BlockSub1) n).i;
                 Expr e40 = ((BlockSub1) n).e;
+                String t40 = ((BlockSub1) n).t;
                 print(prefix,b40);
-                System.out.println(prefix + "VAR");
-                System.out.println(prefix + i40);
-                System.out.println(prefix + ": TYPE =");
+                System.out.println(prefix + "VAR " + i40 + ": " + t40 + " =");
                 print(prefix,e40);
                 System.out.println(prefix + ";");
                 break;
@@ -377,8 +368,7 @@ class Printer
             case 49:
                 String i49 = ((ExprSub1) n).i;
                 Actuals a49 = ((ExprSub1) n).a;
-                System.out.println(prefix + ".");
-                System.out.println(prefix + i49);
+                System.out.println(prefix + "." + i49);
                 print(prefix,a49);
                 break;
             case 50:
@@ -386,8 +376,7 @@ class Printer
                 String i50 = ((ExprSub1) n).i;
                 Actuals a50 = ((ExprSub1) n).a;
                 print(prefix,e150);
-                System.out.println(prefix + ".");
-                System.out.println(prefix + i50);
+                System.out.println(prefix + "." + i50);
                 print(prefix,a50);
                 break;
             case 51:
@@ -413,15 +402,13 @@ class Printer
                 break;
             case 58:
                 String i58 = ((ExprSub2) n).i;
-                System.out.println(prefix + i58);
-                System.out.println(prefix + "=");
+                System.out.println(prefix + i58 + " =");
                 break;
             case 59:
                 ExprSub2 e259 = ((ExprSub2) n).e2;
                 String i59 = ((ExprSub2) n).i;
                 print(prefix,e259);
-                System.out.println(prefix + i59);
-                System.out.println(prefix + "=");
+                System.out.println(prefix + i59 + " =");
                 break;
             case 60:
                 System.out.println(prefix + "!");
@@ -442,26 +429,26 @@ class Printer
             case 64:
                 Expr e64 = ((ExprSub2) n).e;
                 Expr ee64 = ((ExprSub2) n).ee;
-                System.out.println(prefix + "IF (");
+                System.out.println(prefix + "IF(");
                 print(prefix,e64);
                 System.out.println(prefix + ")");
                 print(prefix,ee64);
-                System.out.println(prefix + "ELSE");
+                System.out.println(prefix + "ELSE ");
                 break;
             case 65:
                 ExprSub2 e265 = ((ExprSub2) n).e2;
                 Expr e65 = ((ExprSub2) n).e;
                 Expr ee65 = ((ExprSub2) n).ee;
                 print(prefix,e265);
-                System.out.println(prefix + "IF (");
+                System.out.println(prefix + "IF(");
                 print(prefix,e65);
                 System.out.println(prefix + ")");
                 print(prefix,ee65);
-                System.out.println(prefix + "ELSE");
+                System.out.println(prefix + "ELSE ");
                 break;
             case 66:
                 Expr e66 = ((ExprSub2) n).e;
-                System.out.println(prefix + "WHILE (");
+                System.out.println(prefix + "WHILE(");
                 print(prefix,e66);
                 System.out.println(prefix + ")");
                 break;
@@ -469,7 +456,7 @@ class Printer
                 ExprSub2 e267 = ((ExprSub2) n).e2;
                 Expr e67 = ((ExprSub2) n).e;
                 print(prefix,e267);
-                System.out.println(prefix + "WHILE (");
+                System.out.println(prefix + "WHILE(");
                 print(prefix,e67);
                 System.out.println(prefix + ")");
                 break;
@@ -482,13 +469,13 @@ class Printer
             case 69:
                 String i69 = ((Primary) n).i;
                 Actuals a69 = ((Primary) n).a;
-                System.out.println(prefix + "SUPER .");
-                System.out.println(prefix + i69);
+                System.out.println(prefix + "SUPER." + i69);
                 print(prefix,a69);
                 break;
             case 70:
                 Actuals a70 = ((Primary) n).a;
-                System.out.println(prefix + "NEW TYPE");
+                String t70 = ((Primary) n).t;
+                System.out.println(prefix + "NEW " + t70);
                 print(prefix,a70);
                 break;
             case 71:
@@ -518,10 +505,12 @@ class Printer
                 System.out.println(prefix + n76);
                 break;
             case 77:
-                System.out.println(prefix + "STRING");
+                String s77 = ((Primary) n).s;
+                System.out.println(prefix + s77);
                 break;
             case 78:
-                System.out.println(prefix + "BOOLEAN");
+                String o78 = ((Primary) n).o;
+                System.out.println(prefix + o78);
                 break;
             case 79:
                 System.out.println(prefix + "THIS");
@@ -535,19 +524,17 @@ class Printer
             case 81:
                 Block b81 = ((CasesSub1) n).b;
                 String i81 = ((CasesSub1) n).i;
-                System.out.println(prefix + "CASE");
-                System.out.println(prefix + i81);
-                System.out.println(prefix + ": TYPE =>");
+                String t81 = ((CasesSub1) n).t;
+                System.out.println(prefix + "CASE " + i81 + ": " + t81 + " =>");
                 print(prefix,b81);
                 break;
             case 82:
                 CasesSub1 c182 = ((CasesSub1) n).c1;
                 String i82 = ((CasesSub1) n).i;
                 Block b82 = ((CasesSub1) n).b;
+                String t82 = ((CasesSub1) n).t;
                 print(prefix,c182);
-                System.out.println(prefix + "CASE");
-                System.out.println(prefix + i82);
-                System.out.println(prefix + ": TYPE =>");
+                System.out.println(prefix + "CASE " + i82 + ": " + t82 + " =>");
                 print(prefix,b82);
                 break;
             case 83:

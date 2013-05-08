@@ -4,6 +4,7 @@ public class ClassDecl extends Node
     public final VarFormals v;
     public final Actuals a;
     public final String t;
+    public final String tt;
 
     protected ClassDecl(int id, VarFormals v, ClassBody c, String t)
     {
@@ -13,9 +14,10 @@ public class ClassDecl extends Node
         this.c = c;
         this.a = null;
         this.t = t;
+        this.tt = null;
     }
 
-    protected ClassDecl(int id, VarFormals v, Actuals a, ClassBody c, String t)
+    protected ClassDecl(int id, VarFormals v, Actuals a, ClassBody c, String t, String tt)
     {
         super();
         this.PRODUCTION_ID = id;
@@ -23,5 +25,6 @@ public class ClassDecl extends Node
         this.a = a;
         this.c = c;
         this.t = t;
+        this.tt = tt;
     }
 }
